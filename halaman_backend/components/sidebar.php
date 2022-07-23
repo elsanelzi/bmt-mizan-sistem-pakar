@@ -182,6 +182,7 @@
                         <p>Logout</p>
                     </a>
                 </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

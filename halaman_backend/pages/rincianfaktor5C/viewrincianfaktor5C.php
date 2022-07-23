@@ -37,9 +37,7 @@ $rincian5C = mysqli_query($koneksi, "SELECT * FROM tb_rincian_5c rf LEFT JOIN tb
                                                             }
                                                             unset($_SESSION['info']); ?>">
                     </div>
-                    <div class="card-header">
-                        <h3 class="card-title"><a href="index.php?page=pages/rincianfaktor5C/addrincianfaktor5C" class="btn btn-primary">Tambah Data</a></h3>
-                    </div>
+
                     <!-- /.card-header -->
                     <div class="card-body">
 

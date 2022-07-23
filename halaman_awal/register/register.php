@@ -1,6 +1,178 @@
 <?php require '../../koneksi.php';
 
 session_start(); ?>
+
+<?php
+$error_nik_username = "";
+$error_nama_lengkap = "";
+$error_no_telepon = "";
+$error_alamat = "";
+$error_foto_nasabah = "";
+$error_foto_ktp_nasabah = "";
+$error_password = "";
+
+$nik_username = "";
+$nama_lengkap = "";
+$no_telepon = "";
+$alamat = "";
+$foto_nasabah = "";
+$foto_ktp_nasabah = "";
+$password = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Cek Validation NIK username
+    if (empty($_POST['nik_username'])) {
+        $error_nik_username = "NIK tidak boleh kosong";
+    } else if (!is_numeric($_POST['nik_username'])) {
+        $error_nik_username = "NIK hanya boleh angka";
+    } else if (strlen($_POST['nik_username']) < 16) {
+        $error_nik_username = "Inputan NIK minimal 16 karakter";
+    } else if (strlen($_POST['nik_username']) > 16) {
+        $error_nik_username = "Inputan NIK maksimal 16 karakter";
+    } else {
+        $nik_username = cek_input($_POST['nik_username']);
+        $nik_username = mysqli_escape_string($koneksi, $nik_username);
+    }
+
+    // Cek Validation Nama Lengkap
+    if (empty($_POST['nama_lengkap'])) {
+        $error_nama_lengkap = "Nama Lengkap tidak boleh kosong";
+    } else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['nama_lengkap'])) {
+        $error_nama_lengkap = "Inputan hanya boleh huruf dan spasi";
+    } else {
+        $nama_lengkap = cek_input($_POST['nama_lengkap']);
+        $nama_lengkap = mysqli_escape_string($koneksi, $nama_lengkap);
+    }
+    // Cek Validation No. Telepon
+    if (empty($_POST['no_telepon'])) {
+        $error_no_telepon = "No. Telepon tidak boleh kosong";
+    } else if (!is_numeric($_POST['no_telepon'])) {
+        $error_no_telepon = "No. Telepon hanya boleh angka";
+    } else if (strlen($_POST['no_telepon']) < 12) {
+        $error_no_telepon = "Inputan No. Telepon minimal 12 karakter";
+    } else if (strlen($_POST['no_telepon']) > 15) {
+        $error_no_telepon = "Inputan No. Telepon maksimal 12 karakter";
+    } else {
+        $no_telepon = cek_input($_POST['no_telepon']);
+        $no_telepon = mysqli_escape_string($koneksi, $no_telepon);
+    }
+
+    // Cek Validation Alamat
+    if (empty($_POST['alamat'])) {
+        $error_alamat = "Alamat tidak boleh kosong";
+    } else {
+        $alamat = cek_input($_POST['alamat']);
+        $alamat = mysqli_escape_string($koneksi, $alamat);
+    }
+
+    // Cek Validation Password
+    if (empty($_POST['password'])) {
+        $error_password = "Password tidak boleh kosong";
+    } else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['password'])) {
+        $error_password = "Inputan hanya boleh huruf dan spasi";
+    } else {
+        $password = cek_input($_POST['password']);
+        $password = mysqli_escape_string($koneksi, $password);
+    }
+
+    $status = 'nasabah';
+    $status_validasi = 0;
+
+    // Cek Validation Foto Nasabah 
+    $nama_foto_nasabah = $_FILES['foto_nasabah']['name'];
+    $lokasi_foto_nasabah = $_FILES['foto_nasabah']['tmp_name'];
+    $size_foto_nasabah = $_FILES['foto_nasabah']['size'];
+
+    // Max Ukuran foto 10 MB(10240 KB)
+    $max_size = 10240;
+
+    if (empty($nama_foto_nasabah)) {
+        $error_foto_nasabah = "Foto Nasabah tidak boleh kosong";
+    } else if ($size_foto_nasabah > $max_size) {
+        $error_foto_nasabah = "Ukuran Foto Maksimal 10 MB";
+    } else {
+        $foto_nasabah = cek_input($nama_foto_nasabah);
+        $foto_nasabah = mysqli_escape_string($koneksi, $foto_nasabah);
+    }
+
+
+    // Cek Validation Foto KTP Nasabah
+    $nama_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['name'];
+    $lokasi_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['tmp_name'];
+    $size_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['size'];
+
+    if (empty($nama_foto_ktp_nasabah)) {
+        $error_foto_ktp_nasabah = "Foto KTP Nasabah tidak boleh kosong";
+    } else if ($size_foto_ktp_nasabah > $max_size) {
+        $error_foto_ktp_nasabah = "Ukuran Foto Maksimal 10 MB";
+    } else {
+        $foto_ktp_nasabah = cek_input($nama_foto_ktp_nasabah);
+        $foto_ktp_nasabah = mysqli_escape_string($koneksi, $foto_ktp_nasabah);
+    }
+
+    if (!empty($nik_username) && !empty($nama_lengkap) && !empty($no_telepon) && !empty($alamat) && !empty($foto_nasabah) && !empty($foto_ktp_nasabah) && !empty($password)) {
+        // Query untuk menyimpan data ke dalam tabel user
+        $simpanUser = mysqli_query($koneksi, "INSERT INTO tb_user (`nik_username`, `password`,`status` ) VALUES ('$nik_username', '$password', '$status')");
+
+        if ($simpanUser == TRUE) {
+
+            $foto_nasabah = uniqid(rand(), true) . '_' . $nama_foto_nasabah;
+            while (true) {
+                $foto_nasabah = uniqid(rand(), true) . '_' . $nama_foto_nasabah;
+
+                if (!file_exists(sys_get_temp_dir() . $foto_nasabah))
+                    break;
+            }
+
+            $foto_ktp_nasabah = uniqid(
+                rand(),
+                true
+            ) . '_' . $nama_foto_ktp_nasabah;
+            while (true) {
+                $foto_ktp_nasabah = uniqid(rand(), true) . '_' . $nama_foto_ktp_nasabah;
+
+                if (!file_exists(sys_get_temp_dir() . $foto_ktp_nasabah))
+                    break;
+            }
+
+
+            // Query untuk menyimpan data ke table nasabah
+            $simpanNasabah = mysqli_query($koneksi, "INSERT INTO tb_nasabah (`nik_username`,`nama_lengkap`, `password`, `alamat`,`no_telepon`, `foto_nasabah`,`foto_ktp_nasabah`,`status_validasi` ) VALUES ('$nik_username','$nama_lengkap', '$password','$alamat', '$no_telepon','$foto_nasabah', '$foto_ktp_nasabah','$status_validasi')");
+
+
+            // Move foto nasabah
+            $pindah = move_uploaded_file($lokasi_foto_nasabah, '../../assets/image/foto nasabah/' . $foto_nasabah);
+            // Move Foto KTP Nasabah
+            $pindah = move_uploaded_file($lokasi_foto_ktp_nasabah, '../../assets/image/foto ktp nasabah/' . $foto_ktp_nasabah);
+
+            if ($simpanNasabah) {
+                $_SESSION['info'] = 'Berhasil Register';
+                echo "<script>
+                window.location.href = '../login/login.php'
+              </script>";
+            } else {
+                $_SESSION['info'] = 'Gagal Register';
+                echo "<script>
+                window.location.href = '../register/register.php'
+              </script>";
+            }
+        }
+    } else {
+    }
+}
+
+function cek_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -52,41 +224,47 @@ session_start(); ?>
                         <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
                             Buat Akun
                         </h1>
-                        <form action="proses_register.php" method="POST" enctype="multipart/form-data">
+                        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">NIK</span>
-                                <input name="nik_username" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Masukan NIK" required autofocus onkeypress="return event.charCode>=48 && event.charCode<=57" />
+                                <span for="nik_username" class="text-gray-700 dark:text-gray-400">NIK</span>
+                                <input name="nik_username" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_nik_username != "" ? "is-invalid" : ""); ?>" id="nik_username" placeholder="Masukan NIK" value="<?php echo $nik_username; ?>" autofocus onkeypress="return event.charCode>=48 && event.charCode<=57" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_nik_username; ?></span>
                             </label>
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Nama Lengkap</span>
-                                <input name="nama_lengkap" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Masukan Nama Lengkap" required />
-                            </label> <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">No. Telepon</span>
-                                <input name="no_telepon" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Masukan No. Telepon" required />
+                                <span for="nama_lengkap" class="text-gray-700 dark:text-gray-400">Nama Lengkap</span>
+                                <input name="nama_lengkap" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_nama_lengkap != "" ? "is-invalid" : ""); ?>" id="nama_lengkap" placeholder="Masukan Nama Lengkap" value="<?php echo $nama_lengkap; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_nama_lengkap; ?></span>
                             </label>
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Alamat</span>
-                                <textarea name="alamat" rows="3" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Masukan Alamat" required></textarea>
+                                <span for="no_telepon" class="text-gray-700 dark:text-gray-400">No. Telepon</span>
+                                <input name="no_telepon" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_no_telepon != "" ? "is-invalid" : ""); ?>" id="no_telepon" placeholder="Masukan No. Telepon" value="<?php echo $no_telepon; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_no_telepon; ?></span>
+                            </label>
+                            <label class="block text-sm">
+                                <span for="alamat" class="text-gray-700 dark:text-gray-400">Alamat</span>
+                                <textarea name="alamat" rows="3" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_alamat != "" ? "is-invalid" : ""); ?>" id="alamat" placeholder="Masukan Alamat" value="<?php echo $alamat; ?>"></textarea>
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_alamat; ?></span>
+                            </label>
+                            <label class="block text-sm">
+                                <span for="foto_nasabah" class="text-gray-700 dark:text-gray-400">Foto Nasabah</span>
+                                <input name="foto_nasabah" type="file" id="foto_nasabah" class="block w-full py-2 mt-1 text-sm font-medium text-dark bg-gray border border-transparent rounded-lg <?php echo ($error_foto_nasabah != "" ? "is-invalid" : ""); ?>" value="<?php echo $foto_nasabah; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_foto_nasabah; ?></span>
                             </label>
 
-
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Foto Nasabah</span>
-                                <input name="foto_nasabah" type="file" class="block w-full py-2 mt-1 text-sm font-medium text-dark bg-gray border border-transparent rounded-lg" required />
+                                <span for="foto_ktp_nasabah" class="text-gray-700 dark:text-gray-400">Foto KTP Nasabah</span>
+                                <input name="foto_ktp_nasabah" type="file" id="foto_ktp_nasabah" class="block w-full py-2 mt-1 text-sm font-medium text-dark bg-gray border border-transparent rounded-lg <?php echo ($error_foto_ktp_nasabah != "" ? "is-invalid" : ""); ?>" value="<?php echo $foto_ktp_nasabah; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_foto_ktp_nasabah; ?></span>
                             </label>
 
                             <label class="block text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Foto KTP</span>
-                                <input name="foto_ktp_nasabah" type="file" class="block w-full py-2 mt-1 text-sm font-medium text-dark bg-gray border border-transparent rounded-lg" required />
-                            </label>
-
-                            <label class="block mt-4 text-sm">
-                                <span class="text-gray-700 dark:text-gray-400">Password</span>
-                                <input name="password" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" required />
+                                <span for="password" class="text-gray-700 dark:text-gray-400">Password</span>
+                                <input name="password" type="password" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_password != "" ? "is-invalid" : ""); ?>" id="password" placeholder="***************" value="<?php echo $password; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_password; ?></span>
                             </label>
 
                             <!-- You should use a button here, as the anchor is only used for the example  -->
-                            <button type="submit" class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" name="register">Buat Akun</button>
+                            <button type="submit" class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Buat Akun</button>
                         </form>
 
                         <p class="mt-4">
@@ -98,6 +276,8 @@ session_start(); ?>
                 </div>
             </div>
         </div>
+
+
     </div>
 </body>
 

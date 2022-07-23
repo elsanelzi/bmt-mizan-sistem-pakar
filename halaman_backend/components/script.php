@@ -38,6 +38,14 @@
 <script src="assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
+
+
+
+
+
+
+
+
 <!-- AdminLTE App -->
 <script src="assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->

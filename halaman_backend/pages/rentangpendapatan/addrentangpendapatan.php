@@ -30,7 +30,7 @@
                              <form action="" method="POST">
                                  <div class="form-group">
                                      <label for="nilai_pendapatan_minimum">Nilai Pendapatan Minimum:</label>
-                                     <input name="nilai_pendapatan_minimum" id="nilai_pendapatan_minimum" type="float" class="form-control" placeholder="Masukan Nilai Pendapatan Minimum" required />
+                                     <input name="nilai_pendapatan_minimum" id="nilai_pendapatan_minimum" type="float" class="form-control" placeholder="Masukan Nilai Pendapatan Minimum" required onkeypress="return event.charCode>=48 && event.charCode<=57" />
                                  </div>
                                  <div class="form-group">
                                      <label for="keterangan">Keterangan:</label>

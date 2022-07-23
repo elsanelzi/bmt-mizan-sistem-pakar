@@ -15,7 +15,7 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="?page=pages/peminjaman/viewvalidasipeminjaman">Data Peminjaman Nasabah Diterima</a></li>
+                        <li class="breadcrumb-item"><a href="?page=pages/peminjaman/viewnasabahditolak">Data Peminjaman Nasabah Ditolak</a></li>
                         <li class="breadcrumb-item active">Overview</li>
                     </ol>
                 </div>
@@ -29,7 +29,7 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
             <div class="col-12">
 
                 <div class="card">
-                    <h3 style="padding:10px;margin-left:10px">Data Peminjaman Nasabah Diterima</h3>
+                    <h3 style="padding:10px;margin-left:10px">Data Peminjaman Nasabah Ditolak</h3>
                 </div>
                 <div class="card">
                     <div class="info-data" data-infodata="<?php if (isset($_SESSION['info'])) {
@@ -63,10 +63,10 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                         <td><?= $value['nik_username']; ?></td>
                                         <td>Rp. <?= number_format($value['nominal_pinjaman'], 0, '.', '.'); ?></td>
                                         <td>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></td>
-                                        <td><?= $value['jangka_waktu']; ?></td>
+                                        <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['status']; ?></td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-success">Detail</i></a>
+                                            <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success">Detail</i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

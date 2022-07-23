@@ -4,8 +4,10 @@
     $lihatnasabah = $koneksi->query("SELECT COUNT(*) AS jumlah_nasabah FROM tb_nasabah WHERE status_validasi=1")->fetch_assoc();
     $survei5c = $koneksi->query("SELECT COUNT(*) AS jumlah_survei5c FROM tb_pemberian_pembiayaan_nasabah")->fetch_assoc();
     $faktor5c = $koneksi->query("SELECT COUNT(*) AS jumlah_faktor_5c FROM tb_faktor_5c")->fetch_assoc();
-    $rincian5c = $koneksi->query("SELECT COUNT(*) AS jumlah_rincian_5c FROM tb_rincian_5c")->fetch_assoc();
+    $rentang_pendapatan = $koneksi->query("SELECT COUNT(*) AS jumlah_rentang_pendapatan FROM tb_rentang_pendapatan")->fetch_assoc();
+    $rasio_angsuran = $koneksi->query("SELECT COUNT(*) AS jumlah_rasio_angsuran FROM tb_rasio_angsuran")->fetch_assoc();
     $jenispembiayaan = $koneksi->query("SELECT COUNT(*) AS jumlah_jenis_pembiayaan FROM tb_jenis_pembiayaan")->fetch_assoc();
+    $hasil_pembiayaan = $koneksi->query("SELECT COUNT(*) AS jumlah_hasil_pembiayaan FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE status='Diterima' || status='Ditolak' ")->fetch_assoc();
     ?>
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -69,7 +71,7 @@
                               <!-- small box -->
                               <div class="small-box bg-info">
                                   <div class="inner">
-                                      <h3>1</h3>
+                                      <h3><?php echo $hasil_pembiayaan['jumlah_hasil_pembiayaan'] ?></h3>
 
                                       <p>Hasil Pembiayaan</p>
                                   </div>
@@ -116,12 +118,12 @@
                                   <div class="inner">
                                       <h3>1</h3>
 
-                                      <p>Surat Pendapatan</p>
+                                      <p>Analisa Pendapatan</p>
                                   </div>
                                   <div class="icon">
                                       <i class="far fa-circle"></i>
                                   </div>
-                                  <a href="?page=pages/biaya/viewsuratpendapatan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                  <a href="?page=pages/biaya/viewanalisapendapatan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                               </div>
                           </div>
                       <?php elseif ($_SESSION['status'] == 'Manajer') : ?>
@@ -154,24 +156,9 @@
                                   <a href="?page=pages/faktor5C/viewfaktor5C" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                               </div>
                           </div>
-
                           <div class="col-lg-3 col-6">
                               <!-- small box -->
                               <div class="small-box bg-danger">
-                                  <div class="inner">
-                                      <h3><?php echo $rincian5c['jumlah_rincian_5c'] ?></h3>
-
-                                      <p>Rincian 5C</p>
-                                  </div>
-                                  <div class="icon">
-                                      <i class="fas fa-eye-slash"></i>
-                                  </div>
-                                  <a href="?page=pages/rincianfaktor5C/viewrincianfaktor5C" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                              </div>
-                          </div>
-                          <div class="col-lg-3 col-6">
-                              <!-- small box -->
-                              <div class="small-box bg-warning">
                                   <div class="inner">
                                       <h3><?php echo $jenispembiayaan['jumlah_jenis_pembiayaan'] ?></h3>
 
@@ -183,6 +170,51 @@
                                   <a href="?page=pages/jenispembiayaan/viewjenispembiayaan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                               </div>
                           </div>
+
+                          <div class="col-lg-3 col-6">
+                              <!-- small box -->
+                              <div class="small-box bg-warning">
+                                  <div class="inner">
+                                      <h3><?php echo $rentang_pendapatan['jumlah_rentang_pendapatan'] ?></h3>
+
+                                      <p>Rentang Pendapatan</p>
+                                  </div>
+                                  <div class="icon">
+                                      <i class="fab fa-cc-paypal"></i>
+                                  </div>
+                                  <a href="?page=pages/rentangpendapatan/viewrentangpendapatan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                              </div>
+                          </div>
+                          <div class="col-lg-3 col-6">
+                              <!-- small box -->
+                              <div class="small-box bg-danger">
+                                  <div class="inner">
+                                      <h3><?php echo $rasio_angsuran['jumlah_rasio_angsuran'] ?></h3>
+
+                                      <p>Rasio Angsuran</p>
+                                  </div>
+                                  <div class="icon">
+                                      <i class="far fa-credit-card"></i>
+                                  </div>
+                                  <a href="?page=pages/rasioangsuran/viewrasioangsuran" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                              </div>
+                          </div>
+
+                          <div class="col-lg-3 col-6">
+                              <!-- small box -->
+                              <div class="small-box bg-info">
+                                  <div class="inner">
+                                      <h3><?php echo $hasil_pembiayaan['jumlah_hasil_pembiayaan'] ?></h3>
+
+                                      <p>Hasil Pembiayaan</p>
+                                  </div>
+                                  <div class="icon">
+                                      <i class="fab fa-cc-paypal"></i>
+                                  </div>
+                                  <a href="?page=pages/hasilpembiayaan/viewhasilpembiayaan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                              </div>
+                          </div>
+
                       <?php endif; ?>
                   </div>
                   <!-- /.row -->

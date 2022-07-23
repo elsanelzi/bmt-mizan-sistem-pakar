@@ -211,7 +211,7 @@
          var biaya_umum_dan_adm = document.getElementById('biaya_umum_dan_adm').value;
          var biaya_pemasaran = document.getElementById('biaya_pemasaran').value;
 
-         var pendapatan_jualan = Number(jumlah_tabungan) - Number(jumlah_hutang) + Number(penjualan) - Number(biaya_tenaga_kerja) - Number(biaya_bahan_baku) - Number(biaya_overhead) - Number(harga_pokok_produksi) - Number(biaya_umum_dan_adm) - Number(biaya_pemasaran);
+         var pendapatan_jualan = Number(penjualan) - Number(biaya_tenaga_kerja) - Number(biaya_bahan_baku) - Number(biaya_overhead) - Number(harga_pokok_produksi) - Number(biaya_umum_dan_adm) - Number(biaya_pemasaran);
 
 
          //  var total_biaya_admin = Number(biaya_umum_dan_adm) + Number(biaya_pemasaran);
@@ -237,6 +237,8 @@
          //  Perhitungan pendapatan bersih
          var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan);
 
+         document.getElementById('jumlah_tabungan').value = jumlah_tabungan;
+         document.getElementById('jumlah_hutang').value = jumlah_hutang;
          document.getElementById('pendapatan_jualan').value = pendapatan_jualan;
          //  document.getElementById('total_biaya_adm').value = total_biaya_admin;
          document.getElementById('pendapatan_per_bulan').value = pendapatan_per_bulan;

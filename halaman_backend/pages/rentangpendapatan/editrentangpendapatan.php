@@ -35,7 +35,7 @@
                                  <input type="hidden" class="form-control" name="id_rentang_pendapatan" value="<?php echo $rentangpendapatan['id_rentang_pendapatan'] ?>">
                                  <div class="form-group">
                                      <label for="nilai_pendapatan_minimum">Nilai Pendapatan Minimum:</label>
-                                     <input name="nilai_pendapatan_minimum" id="nilai_pendapatan_minimum" type="text" class="form-control" value="<?= $rentangpendapatan['nilai_pendapatan_minimum'] ?>" required autofocus />
+                                     <input name="nilai_pendapatan_minimum" id="nilai_pendapatan_minimum" type="text" class="form-control" value="<?= $rentangpendapatan['nilai_pendapatan_minimum'] ?>" required autofocus onkeypress="return event.charCode>=48 && event.charCode<=57" />
                                  </div>
                                  <div class="form-group">
                                      <label for="keterangan">keterangan:</label>

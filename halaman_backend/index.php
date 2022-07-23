@@ -33,6 +33,7 @@ if (!isset($_SESSION['status'])) {
         <?php include('components/sidebar.php'); ?>
 
         <!-- Content Wrapper. Contains page content -->
+
         <?php include('content.php'); ?>
         <!-- /.content-wrapper -->
         <?php include('components/footer.php'); ?>

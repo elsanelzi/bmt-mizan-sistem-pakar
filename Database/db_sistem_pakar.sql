@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Jul 2022 pada 00.36
+-- Waktu pembuatan: 23 Jul 2022 pada 21.32
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -60,7 +60,7 @@ CREATE TABLE `tb_analisa_pendapatan` (
 --
 
 INSERT INTO `tb_analisa_pendapatan` (`id_analisa_pendapatan`, `id_pemberian_pembiayaan_nasabah`, `jumlah_tabungan`, `jumlah_hutang`, `penjualan`, `biaya_tenaga_kerja`, `biaya_bahan_baku`, `biaya_overhead`, `harga_pokok_produksi`, `pendapatan_jualan`, `biaya_umum_dan_adm`, `biaya_pemasaran`, `pendapatan_per_bulan`, `pendapatan_lain_lain`, `total_pendapatan_per_bulan`, `biaya_makan`, `biaya_transportasi`, `biaya_sewa`, `biaya_air`, `biaya_listrik`, `biaya_telepon`, `biaya_pendidikan`, `biaya_lain_lain`, `total_biaya_hidup_per_bulan`, `pendapatan_bersih_per_bulan`) VALUES
-(1, 3, 150000, 5000, 55000, 10000, 1000, 9000, 15000, 160000, 3000, 2000, 66000, 7000, 233000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 197000);
+(1, 1, 40000000, 2000000, 95000000, 10000, 1000, 9000, 15000, 94885000, 78000, 2000, 6600000, 7000000, 108485000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 108449000);
 
 -- --------------------------------------------------------
 
@@ -77,6 +77,13 @@ CREATE TABLE `tb_detail_jaminan_nasabah` (
   `nomor_angka` varchar(255) NOT NULL,
   `nomor_mesin` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_detail_jaminan_nasabah`
+--
+
+INSERT INTO `tb_detail_jaminan_nasabah` (`id_detail_jaminan`, `id_jaminan_nasabah`, `foto_tampak_depan`, `foto_tampak_belakang`, `foto_tampak_samping`, `nomor_angka`, `nomor_mesin`) VALUES
+(1, 1, '116077231062dc3897ecdab3.66382199_bukti4.jpg', '164102308762dc3897ed12f0.89227102_bukti4.jpg', '54890849162dc3897ed5025.53661325_bukti4.jpg', '97585894662dc3897ed7f06.47889894_bukti4.jpg', '103440105462dc3897eda906.80264675_bukti4.jpg');
 
 -- --------------------------------------------------------
 
@@ -133,7 +140,7 @@ INSERT INTO `tb_faktor_5c` (`id_faktor_5c`, `faktor_5c`) VALUES
 CREATE TABLE `tb_hasil` (
   `id_hasil` int(11) NOT NULL,
   `id_jaminan_nasabah` int(11) NOT NULL,
-  `nik_username` int(11) NOT NULL,
+  `nik_username` varchar(16) NOT NULL,
   `tanggal` date NOT NULL,
   `nilai_nasabah` varchar(15) NOT NULL,
   `persentase_nilai` double NOT NULL
@@ -144,7 +151,7 @@ CREATE TABLE `tb_hasil` (
 --
 
 INSERT INTO `tb_hasil` (`id_hasil`, `id_jaminan_nasabah`, `nik_username`, `tanggal`, `nilai_nasabah`, `persentase_nilai`) VALUES
-(1, 2, 1234, '2022-07-21', 'Sangat Baik', 80);
+(2, 1, '1234567891012341', '2022-07-23', 'Baik', 66);
 
 -- --------------------------------------------------------
 
@@ -168,8 +175,7 @@ CREATE TABLE `tb_jaminan_nasabah` (
 --
 
 INSERT INTO `tb_jaminan_nasabah` (`id_jaminan_nasabah`, `id_pemberian_pembiayaan_nasabah`, `foto_KK`, `foto_BPKP`, `foto_surat_izin_usaha`, `foto_STNK`, `foto_rekening_listrik`, `status`) VALUES
-(1, 2, '120263902162d265b6809d33.55498460_b3.jpg', '44303160662d265b680dae0.87825155_bukti3.jpg', '146412982862d265b6810a60.61266010_bukti4.jpg', '102155922962d265b6813230.37080726_b4.jpg', '98203163462d265b68162a2.56713232_bb2.png', 'konfirmasi'),
-(2, 3, '187809084962d2bbf9695098.55478357_bukti4.jpg', '126294067562d2bbf96981e4.85072720_b4.jpg', '134066516862d2bbf969a9c6.81894349_bukti2.png', '70567164262d2bbf969d6c5.46544563_b4.jpg', '97869069462d2bbf96a1223.61258066_bukti4.jpg', 'Ditolak');
+(1, 1, '76514868762dc3875533d83.13694624_bukti3.jpg', '100042878162dc38755373d8.87925316_bukti3.jpg', '170178959362dc3875539bc8.95688474_bukti3.jpg', '34578138862dc387553bf05.14473136_bukti3.jpg', '139846681762dc387553e1e7.66112109_bukti3.jpg', 'Diterima');
 
 -- --------------------------------------------------------
 
@@ -213,9 +219,7 @@ CREATE TABLE `tb_nasabah` (
 --
 
 INSERT INTO `tb_nasabah` (`id_nasabah`, `nik_username`, `nama_lengkap`, `password`, `alamat`, `no_telepon`, `foto_nasabah`, `foto_ktp_nasabah`, `status_validasi`) VALUES
-(1, '1234', 'Juni Safitri', 'juni', 'Pasaman', '083161954321', '3721846662bcc5046ef765.73831849_profil.jpg', '107683562562bcc5046f25b0.90560865_background2.jpg', 1),
-(2, '12', 'Rades Saputri', 'rades', 'Bengkulu', '083161951317', '64459511362c6687c4e8eb5.83406984_profil1.png', '25881265962c6687c4eb6a2.40671853_background-1.jpg', 0),
-(3, '135', 'benni', 'benni', 'Padang Panjang', '083161954361', '69949583762d62dc4ca4859.04199382_profil1.png', '115176824562d62dc4ca6b20.21134947_b3.jpg', 0);
+(1, '1234567891012341', 'Juni Safitri', 'juni', 'Padang', '083161954327', '103155304562dc1f38417d70.61304828_profil1.png', '158868223362dc1f38418a79.12971342_profil1.png', 1);
 
 -- --------------------------------------------------------
 
@@ -237,8 +241,7 @@ CREATE TABLE `tb_pemberian_pembiayaan_nasabah` (
 --
 
 INSERT INTO `tb_pemberian_pembiayaan_nasabah` (`id_pemberian_pembiayaan_nasabah`, `id_jenis_pembiayaan`, `nik_username`, `nominal_pinjaman`, `jangka_waktu`, `tanggal_peminjaman`) VALUES
-(2, 2, '1234', 120000000, 24, '2022-07-16'),
-(3, 2, '1234', 11000000, 18, '2022-07-16');
+(1, 2, '1234567891012341', 80000000, 12, '2022-07-23');
 
 -- --------------------------------------------------------
 
@@ -315,7 +318,7 @@ INSERT INTO `tb_rincian_5c` (`id_rincian_5c`, `id_faktor_5c`, `keterangan`, `bob
 (33, 6, 'r4', 20),
 (34, 7, 'ka2', 15),
 (35, 7, 'ka3', 25),
-(36, 7, 'ka4', 15);
+(36, 7, 'Ketepatan Angsuran', 15);
 
 -- --------------------------------------------------------
 
@@ -336,12 +339,10 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id_user`, `nik_username`, `password`, `status`) VALUES
 (1, '12345', 'zahra', 'Admin'),
-(2, '1234', 'juni', 'nasabah'),
 (3, '123', 'dimas', 'Petugas Lapangan'),
 (4, '123456', 'monica', 'Teller'),
 (5, '123451', 'dori', 'Manajer'),
-(6, '12', 'rades', 'nasabah'),
-(7, '135', 'benni', 'nasabah');
+(6, '1234567891012341', 'juni', 'nasabah');
 
 --
 -- Indexes for dumped tables
@@ -442,7 +443,7 @@ ALTER TABLE `tb_analisa_pendapatan`
 -- AUTO_INCREMENT untuk tabel `tb_detail_jaminan_nasabah`
 --
 ALTER TABLE `tb_detail_jaminan_nasabah`
-  MODIFY `id_detail_jaminan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detail_jaminan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_detail_user`
@@ -460,13 +461,13 @@ ALTER TABLE `tb_faktor_5c`
 -- AUTO_INCREMENT untuk tabel `tb_hasil`
 --
 ALTER TABLE `tb_hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_jaminan_nasabah`
 --
 ALTER TABLE `tb_jaminan_nasabah`
-  MODIFY `id_jaminan_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_jaminan_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_jenis_pembiayaan`
@@ -478,13 +479,13 @@ ALTER TABLE `tb_jenis_pembiayaan`
 -- AUTO_INCREMENT untuk tabel `tb_nasabah`
 --
 ALTER TABLE `tb_nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pemberian_pembiayaan_nasabah`
 --
 ALTER TABLE `tb_pemberian_pembiayaan_nasabah`
-  MODIFY `id_pemberian_pembiayaan_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pemberian_pembiayaan_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_rasio_angsuran`
@@ -508,7 +509,7 @@ ALTER TABLE `tb_rincian_5c`
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

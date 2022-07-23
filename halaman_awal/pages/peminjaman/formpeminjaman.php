@@ -32,12 +32,13 @@
                      </div>
                      <div class="form-group">
                          <label for="nominal_pinjaman">Nominal Pinjaman</label>
-                         <input type="float" name="nominal_pinjaman" class="form-control" id="nominal_pinjaman" required>
+                         <input type="float" name="nominal_pinjaman" class="form-control" id="nominal_pinjaman" autofocus onkeypress="return event.charCode>=48 && event.charCode<=57" required>
+
                      </div>
                      <div class="form-group">
                          <label for="jangka_waktu">Jangka Waktu</label>
                          <select name="jangka_waktu" class="form-control" id="jangka_waktu" required>
-                             <option value="">-- PILIH JANGKA WAKTU --</option>
+                             <option value="3">-- PILIH JANGKA WAKTU --</option>
                              <option value="3">3 Bulan</option>
                              <option value="6">6 Bulan</option>
                              <option value="12">12 Bulan</option>
@@ -78,6 +79,7 @@
                     ?>
 
              </div>
+
 
 
 

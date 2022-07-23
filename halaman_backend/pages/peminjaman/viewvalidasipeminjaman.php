@@ -65,11 +65,11 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                         <td><?= $value['nik_username']; ?></td>
                                         <td>Rp. <?= number_format($value['nominal_pinjaman'], 0, '.', '.'); ?></td>
                                         <td>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></td>
-                                        <td><?= $value['jangka_waktu']; ?></td>
+                                        <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['status']; ?></td>
                                         <form action="" method="POST">
                                             <td class="text-center">
-                                                <a href="#" class="btn btn-success">Detail</i></a>
+                                                <!-- <a href="#" class="btn btn-success">Detail</i></a> -->
                                                 <input type="hidden" name="id_pemberian_pembiayaan_nasabah" value="<?= $value['id_pemberian_pembiayaan_nasabah']; ?>">
                                                 <input type="hidden" name="nominal_pinjaman" value="<?= $value['nominal_pinjaman'] ?>">
                                                 <input type="hidden" name="pendapatan_bersih_per_bulan" value="<?= $value['pendapatan_bersih_per_bulan'] ?>">
@@ -77,6 +77,9 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                                 <?php if ($value['status'] == 'analisa pendapatan') : ?>
                                                     <button name="validasi_peminjaman" class="btn btn-danger">Validasi</i></a>
                                                     <?php endif ?>
+                                                    <?php if ($value['status'] == 'Ditolak' || $value['status'] == 'Diterima') : ?>
+                                                        <button class="btn btn-danger"><?= $value['status'] ?></i></a>
+                                                        <?php endif ?>
                                             </td>
                                         </form>
                                     </tr>
