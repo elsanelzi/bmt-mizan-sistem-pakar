@@ -83,8 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lokasi_foto_nasabah = $_FILES['foto_nasabah']['tmp_name'];
     $size_foto_nasabah = $_FILES['foto_nasabah']['size'];
 
-    // Max Ukuran foto 10 MB(10240 KB)
-    $max_size = 10240;
+    // Max Ukuran foto 10 MB(10240000 KB)
+    $max_size = 10240000;
 
     if (empty($nama_foto_nasabah)) {
         $error_foto_nasabah = "Foto Nasabah tidak boleh kosong";
