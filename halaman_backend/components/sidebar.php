@@ -98,12 +98,12 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="?page=pages/peminjaman/viewvalidasipeminjaman" class="nav-link">
                                     <i class="nav-icon fas fa-file-invoice"></i>
                                     <p>Validasi Peminjaman</p>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a href="?page=pages/peminjaman/viewnasabahditolak" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>

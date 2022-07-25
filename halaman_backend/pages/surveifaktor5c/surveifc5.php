@@ -98,7 +98,7 @@ foreach ($datafaktor5c2 as $key => $value) : ?>
                                             </table>
 
                                             <div class="row" style="margin-top: 30px; justify-content:right">
-                                                <button name="save" class="submit btn btn-danger">SIMPAN</button>
+                                                <button name="save" class="submit btn btn-danger">NEXT</button>
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
@@ -161,15 +161,13 @@ foreach ($datafaktor5c2 as $key => $value) : ?>
 
                             // // Edit data tabel Hasil
                             $edit = $koneksi->query("UPDATE tb_hasil SET nilai_nasabah= '$nilai_nasabah', persentase_nilai= '$persentase' WHERE id_hasil='$id_hasil'");
-                            $status = 'selesai survei 5c';
-                            $updateStatus = $koneksi->query("UPDATE tb_jaminan_nasabah SET status= '$status' WHERE id_jaminan_nasabah='$id_jaminan_nasabah'");
-                            if ($updateStatus) {
-                                $_SESSION['info'] = 'Berhasil Disimpan';
+                            // $status = 'selesai survei 5c';
+                            // $updateStatus = $koneksi->query("UPDATE tb_jaminan_nasabah SET status= '$status' WHERE id_jaminan_nasabah='$id_jaminan_nasabah'");
+                            if ($edit) {
                                 echo "<script>
-                                                    window.location.href = '?page=pages/biaya/viewsurvei5c'</script>";
+                                                    window.location.href = '?page=pages/surveifaktor5c/buktilampiransurvei'</script>";
                             } else {
-                                $_SESSION['info'] = 'Gagal Disimpan';
-                                echo "<script>window.location.href = '?page=pages/biaya/viewsurvei5c'
+                                echo "<script>window.location.href = '?page=pages/surveifaktor5c/buktilampiransurvei'
                                                     </script>";
                             }
                         }

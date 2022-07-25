@@ -113,6 +113,7 @@ $nasabahDivalidasi = mysqli_query($koneksi, "SELECT * FROM tb_nasabah WHERE stat
                                     <th>Alamat</th>
                                     <th>Foto</th>
                                     <th>KTP</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,6 +128,7 @@ $nasabahDivalidasi = mysqli_query($koneksi, "SELECT * FROM tb_nasabah WHERE stat
                                         <td><?= $value['alamat']; ?></td>
                                         <td><img src="../assets/image/foto nasabah/<?= $value['foto_nasabah'] ?>" alt="" width="100px" height="100px"></td>
                                         <td><img src="../assets/image/foto ktp nasabah/<?= $value['foto_ktp_nasabah'] ?>" alt="" width="100px" height="100px"></td>
+                                        <td><a href="?page=pages/nasabah/infodetailnasabah&id=<?php echo $value['id_nasabah']; ?>" class=" btn btn-primary">Info</a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

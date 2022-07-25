@@ -8,6 +8,7 @@
     $rasio_angsuran = $koneksi->query("SELECT COUNT(*) AS jumlah_rasio_angsuran FROM tb_rasio_angsuran")->fetch_assoc();
     $jenispembiayaan = $koneksi->query("SELECT COUNT(*) AS jumlah_jenis_pembiayaan FROM tb_jenis_pembiayaan")->fetch_assoc();
     $hasil_pembiayaan = $koneksi->query("SELECT COUNT(*) AS jumlah_hasil_pembiayaan FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE status='Diterima' || status='Ditolak' ")->fetch_assoc();
+    $hasil_pembiayaan_teller = $koneksi->query("SELECT COUNT(*) AS jumlah_hasil_pembiayaan_teller FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE status_validasi_hasil=1 AND status='Diterima' || status='Ditolak' ")->fetch_assoc();
     ?>
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -71,7 +72,7 @@
                               <!-- small box -->
                               <div class="small-box bg-info">
                                   <div class="inner">
-                                      <h3><?php echo $hasil_pembiayaan['jumlah_hasil_pembiayaan'] ?></h3>
+                                      <h3><?php echo $hasil_pembiayaan_teller['jumlah_hasil_pembiayaan_teller'] ?></h3>
 
                                       <p>Hasil Pembiayaan</p>
                                   </div>

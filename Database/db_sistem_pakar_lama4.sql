@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Jul 2022 pada 21.02
+-- Waktu pembuatan: 23 Jul 2022 pada 21.32
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -60,27 +60,7 @@ CREATE TABLE `tb_analisa_pendapatan` (
 --
 
 INSERT INTO `tb_analisa_pendapatan` (`id_analisa_pendapatan`, `id_pemberian_pembiayaan_nasabah`, `jumlah_tabungan`, `jumlah_hutang`, `penjualan`, `biaya_tenaga_kerja`, `biaya_bahan_baku`, `biaya_overhead`, `harga_pokok_produksi`, `pendapatan_jualan`, `biaya_umum_dan_adm`, `biaya_pemasaran`, `pendapatan_per_bulan`, `pendapatan_lain_lain`, `total_pendapatan_per_bulan`, `biaya_makan`, `biaya_transportasi`, `biaya_sewa`, `biaya_air`, `biaya_listrik`, `biaya_telepon`, `biaya_pendidikan`, `biaya_lain_lain`, `total_biaya_hidup_per_bulan`, `pendapatan_bersih_per_bulan`) VALUES
-(1, 1, 25000000, 4500000, 15000000, 10000, 1000, 9000, 15000, 14956000, 7000, 2000, 6600000, 7000000, 28556000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 28520000);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_bukti_survei`
---
-
-CREATE TABLE `tb_bukti_survei` (
-  `id_bukti_survei` int(11) NOT NULL,
-  `id_hasil` int(11) NOT NULL,
-  `bukti_lampiran_survei` varchar(255) NOT NULL,
-  `status_validasi_hasil` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_bukti_survei`
---
-
-INSERT INTO `tb_bukti_survei` (`id_bukti_survei`, `id_hasil`, `bukti_lampiran_survei`, `status_validasi_hasil`) VALUES
-(1, 1, '1658772577_bukti2.png', 0);
+(1, 1, 40000000, 2000000, 95000000, 10000, 1000, 9000, 15000, 94885000, 78000, 2000, 6600000, 7000000, 108485000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 108449000);
 
 -- --------------------------------------------------------
 
@@ -103,7 +83,7 @@ CREATE TABLE `tb_detail_jaminan_nasabah` (
 --
 
 INSERT INTO `tb_detail_jaminan_nasabah` (`id_detail_jaminan`, `id_jaminan_nasabah`, `foto_tampak_depan`, `foto_tampak_belakang`, `foto_tampak_samping`, `nomor_angka`, `nomor_mesin`) VALUES
-(1, 1, '68528389062de9ba26f9507.54780570_bukti4.jpg', '139414911462de9ba26fd5a1.98207763_bukti4.jpg', '165341587562de9ba26fff17.11773456_bukti4.jpg', '138862330662de9ba27025f3.55891180_bukti4.jpg', '166064634262de9ba2705402.47068237_bukti4.jpg');
+(1, 1, '116077231062dc3897ecdab3.66382199_bukti4.jpg', '164102308762dc3897ed12f0.89227102_bukti4.jpg', '54890849162dc3897ed5025.53661325_bukti4.jpg', '97585894662dc3897ed7f06.47889894_bukti4.jpg', '103440105462dc3897eda906.80264675_bukti4.jpg');
 
 -- --------------------------------------------------------
 
@@ -171,7 +151,7 @@ CREATE TABLE `tb_hasil` (
 --
 
 INSERT INTO `tb_hasil` (`id_hasil`, `id_jaminan_nasabah`, `nik_username`, `tanggal`, `nilai_nasabah`, `persentase_nilai`) VALUES
-(1, 1, '1234567891012341', '2022-07-25', 'Baik', 66);
+(2, 1, '1234567891012341', '2022-07-23', 'Baik', 66);
 
 -- --------------------------------------------------------
 
@@ -195,7 +175,7 @@ CREATE TABLE `tb_jaminan_nasabah` (
 --
 
 INSERT INTO `tb_jaminan_nasabah` (`id_jaminan_nasabah`, `id_pemberian_pembiayaan_nasabah`, `foto_KK`, `foto_BPKP`, `foto_surat_izin_usaha`, `foto_STNK`, `foto_rekening_listrik`, `status`) VALUES
-(1, 1, '152275195162de943005db05.65729099_bukti3.jpg', '200378111462de9430060a22.06039152_bukti3.jpg', '54357068662de9430062848.62624948_bukti3.jpg', '179717701962de94300643f4.56170534_bukti3.jpg', '102927139062de9430066925.27320761_bukti3.jpg', 'Diterima');
+(1, 1, '76514868762dc3875533d83.13694624_bukti3.jpg', '100042878162dc38755373d8.87925316_bukti3.jpg', '170178959362dc3875539bc8.95688474_bukti3.jpg', '34578138862dc387553bf05.14473136_bukti3.jpg', '139846681762dc387553e1e7.66112109_bukti3.jpg', 'Diterima');
 
 -- --------------------------------------------------------
 
@@ -261,7 +241,7 @@ CREATE TABLE `tb_pemberian_pembiayaan_nasabah` (
 --
 
 INSERT INTO `tb_pemberian_pembiayaan_nasabah` (`id_pemberian_pembiayaan_nasabah`, `id_jenis_pembiayaan`, `nik_username`, `nominal_pinjaman`, `jangka_waktu`, `tanggal_peminjaman`) VALUES
-(1, 2, '1234567891012341', 11000000, 18, '2022-07-25');
+(1, 2, '1234567891012341', 80000000, 12, '2022-07-23');
 
 -- --------------------------------------------------------
 
@@ -375,12 +355,6 @@ ALTER TABLE `tb_analisa_pendapatan`
   ADD PRIMARY KEY (`id_analisa_pendapatan`);
 
 --
--- Indeks untuk tabel `tb_bukti_survei`
---
-ALTER TABLE `tb_bukti_survei`
-  ADD PRIMARY KEY (`id_bukti_survei`);
-
---
 -- Indeks untuk tabel `tb_detail_jaminan_nasabah`
 --
 ALTER TABLE `tb_detail_jaminan_nasabah`
@@ -466,12 +440,6 @@ ALTER TABLE `tb_analisa_pendapatan`
   MODIFY `id_analisa_pendapatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_bukti_survei`
---
-ALTER TABLE `tb_bukti_survei`
-  MODIFY `id_bukti_survei` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT untuk tabel `tb_detail_jaminan_nasabah`
 --
 ALTER TABLE `tb_detail_jaminan_nasabah`
@@ -493,7 +461,7 @@ ALTER TABLE `tb_faktor_5c`
 -- AUTO_INCREMENT untuk tabel `tb_hasil`
 --
 ALTER TABLE `tb_hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_jaminan_nasabah`

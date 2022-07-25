@@ -71,6 +71,8 @@ $dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pemb
                                                         <button type="submit" name="proses" class="btn btn-danger">Proses</i></button>
                                                     </form>
                                                 <?php elseif ($value['status'] == 'konfirmasi') : ?>
+                                                    <p class="text-danger"><strong>Menunggu Hasil Analisa Pendapatan</strong></p>
+                                                <?php elseif ($value['status'] == 'analisa pendapatan') : ?>
                                                     <a href="?page=pages/surveifaktor5c/surveifc1&id=<?php echo $value['id_jaminan_nasabah']; ?>" class="btn btn-danger text-white">5C</a>
                                                     <!-- <a type="submit" name="aksi_5C" class="btn btn-danger text-white" data-toggle="modal" data-target="#limaCModal<?= $value['id_jaminan_nasabah'] ?>">5C</i></a> -->
                                                 <?php elseif ($value['status'] != 'pending' && $value['status'] != 'konfirmasi') : ?>

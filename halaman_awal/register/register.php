@@ -68,8 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Cek Validation Password
     if (empty($_POST['password'])) {
         $error_password = "Password tidak boleh kosong";
-    } else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['password'])) {
-        $error_password = "Inputan hanya boleh huruf dan spasi";
     } else {
         $password = cek_input($_POST['password']);
         $password = mysqli_escape_string($koneksi, $password);

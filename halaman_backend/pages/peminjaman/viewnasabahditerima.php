@@ -1,6 +1,6 @@
 <?php
 // Query menampilkan data peminjaman nasabah Diterima
-$data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE jn.status='Diterima' GROUP BY ppn.id_pemberian_pembiayaan_nasabah ORDER BY jn.id_jaminan_nasabah ASC");
+$data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah,bs.* FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE jn.status='Diterima' GROUP BY ppn.id_pemberian_pembiayaan_nasabah ORDER BY jn.id_jaminan_nasabah ASC");
 
 
 ?>
@@ -50,7 +50,7 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                     <th>Pendapatan Bersih</th>
                                     <th>Jangka Waktu</th>
                                     <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th colspan="2">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,11 +65,40 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                         <td>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></td>
                                         <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['status']; ?></td>
-                                        <td class="text-center">
-                                            <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success">Detail</i></a>
-                                        </td>
+                                        <form action="" method="POST">
+                                            <td class="text-center">
+                                                <input type="hidden" name="id_bukti_survei" value="<?= $value['id_bukti_survei']; ?>">
+                                                <?php if ($value['status_validasi_hasil'] == 0) : ?>
+                                                    <button name="validasi_peminjaman" class="btn btn-danger">Validasi</button>
+                                                <?php endif; ?>
+                                                <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success">Detail</i></a>
+
+                                            </td>
+                                        </form>
                                     </tr>
                                 <?php endforeach; ?>
+
+                                <?php
+
+                                if (isset($_POST['validasi_peminjaman'])) {
+                                    $id_bukti_survei = $_POST['id_bukti_survei'];
+                                    $status_validasi_hasil = 1;
+
+                                    // // Edit data tabel jaminan nasabah
+                                    $edit = $koneksi->query("UPDATE tb_bukti_survei SET status_validasi_hasil= '$status_validasi_hasil' WHERE id_bukti_survei='$id_bukti_survei'");
+
+                                    if ($edit) {
+                                        $_SESSION['info'] = 'Berhasil Divalidasi';
+                                        echo "<script>
+                                                        window.location.href = '?page=pages/peminjaman/viewnasabahditerima'</script>";
+                                    } else {
+                                        $_SESSION['info'] = 'Gagal Divalidasi';
+                                        echo "<script>window.location.href = '?page=pages/peminjaman/viewnasabahditerima'
+                                                        </script>";
+                                    }
+                                }
+
+                                ?>
                             </tbody>
                         </table>
                     </div>

@@ -133,26 +133,36 @@ $dataRentangPendapatan = mysqli_query($koneksi, "SELECT * FROM tb_rentang_pendap
                             <tr style="border-bottom:2px;">
                                 <td colspan="3" style="text-align:left; font-weight:bold">HASIL PEMBERIAN PEMBIAYAAN NASABAH : </td>
                             </tr>
-                            <tr class="fw-bold text-danger">
-                                <td width="35%">Nilai Nasabah</td>
+                            <tr class="fw-bold text-success">
+                                <td width="20%">Jumlah Tabungan</td>
                                 <td width="3%" style="text-align: right;">:</td>
-                                <td><?= $value['nilai_nasabah']; ?> </td>
+                                <td>Rp. <?= number_format($value['jumlah_tabungan'], 0, '.', '.'); ?></td>
+                            </tr>
+                            <tr class="fw-bold text-danger">
+                                <td width="20%">Jumlah Hutang</td>
+                                <td width="3%" style="text-align: right;">:</td>
+                                <td>Rp <?= number_format($value['jumlah_hutang'], 0, '.', '.'); ?></td>
+                            </tr>
+                            <tr class="fw-bold text-danger">
+                                <td width="20%"><strong>Nilai Nasabah</strong></td>
+                                <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                <td><strong><?= $value['nilai_nasabah']; ?> </strong></td>
                             </tr>
 
                             <tr class="fw-bold text-danger">
-                                <td width="35%">Persentase Nilai</td>
-                                <td width="3%" style="text-align: right;">:</td>
-                                <td><?= $value['persentase_nilai']; ?> %</td>
+                                <td width="20%"><strong>Persentase Nilai</strong></td>
+                                <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                <td><strong><?= $value['persentase_nilai']; ?> %</strong></td>
                             </tr>
                             <tr class="fw-bold text-danger">
-                                <td width="35%">Pendapatan Bersih</td>
-                                <td width="3%" style="text-align: right;">:</td>
-                                <td>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></td>
+                                <td width="20%"><strong>Pendapatan Bersih</strong></td>
+                                <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                <td><strong>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></strong></td>
                             </tr>
                             <tr class="fw-bold">
-                                <td width="35%">Status</td>
-                                <td width="3%" style="text-align: right;">:</td>
-                                <td><?= $value['status']; ?></td>
+                                <td width="20%"><strong>Status</strong></td>
+                                <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                <td><strong><?= $value['status']; ?></strong></td>
                             </tr>
                             <tr class="fw-bold text-success">
                                 <td width="35%" style="font-weight: bold;">Penerimaan Biaya</td>

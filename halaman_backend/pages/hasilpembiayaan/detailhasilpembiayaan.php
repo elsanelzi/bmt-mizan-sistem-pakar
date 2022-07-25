@@ -1,7 +1,7 @@
 <?php
 $id = $_GET['id'];
 // Query menampilkan data hasil pembiayaan nasabah
-$dataHasilPembiayaan = mysqli_query($koneksi, "SELECT *, n.nik_username as nik_username FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_pemberian_pembiayaan_nasabah ppn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=ppn.id_jenis_pembiayaan LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE ppn.id_pemberian_pembiayaan_nasabah=$id AND jn.status='Diterima' || status='Ditolak' ORDER BY id_hasil ASC");
+$dataHasilPembiayaan = mysqli_query($koneksi, "SELECT *, n.nik_username as nik_username FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_pemberian_pembiayaan_nasabah ppn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=ppn.id_jenis_pembiayaan LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE ppn.id_pemberian_pembiayaan_nasabah=$id AND jn.status='Diterima' || status='Ditolak' ORDER BY h.id_hasil ASC");
 
 $dataRasioAngsuran = mysqli_query($koneksi, "SELECT * FROM tb_rasio_angsuran")->fetch_array();
 $dataRentangPendapatan = mysqli_query($koneksi, "SELECT * FROM tb_rentang_pendapatan")->fetch_array();
@@ -115,26 +115,36 @@ $dataRentangPendapatan = mysqli_query($koneksi, "SELECT * FROM tb_rentang_pendap
                                     <tr style="border-bottom:2px;">
                                         <td colspan="3" style="text-align:left; font-weight:bold">HASIL PEMBERIAN PEMBIAYAAN NASABAH : </td>
                                     </tr>
-                                    <tr class="fw-bold text-danger">
-                                        <td width="20%">Nilai Nasabah</td>
+                                    <tr class="fw-bold text-success">
+                                        <td width="20%">Jumlah Tabungan</td>
                                         <td width="3%" style="text-align: right;">:</td>
-                                        <td><?= $value['nilai_nasabah']; ?> </td>
+                                        <td>Rp. <?= number_format($value['jumlah_tabungan'], 0, '.', '.'); ?></td>
+                                    </tr>
+                                    <tr class="fw-bold text-danger">
+                                        <td width="20%">Jumlah Hutang</td>
+                                        <td width="3%" style="text-align: right;">:</td>
+                                        <td>Rp <?= number_format($value['jumlah_hutang'], 0, '.', '.'); ?></td>
+                                    </tr>
+                                    <tr class="fw-bold text-danger">
+                                        <td width="20%"><strong>Nilai Nasabah</strong></td>
+                                        <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                        <td><strong><?= $value['nilai_nasabah']; ?> </strong></td>
                                     </tr>
 
                                     <tr class="fw-bold text-danger">
-                                        <td width="20%">Persentase Nilai</td>
-                                        <td width="3%" style="text-align: right;">:</td>
-                                        <td><?= $value['persentase_nilai']; ?> %</td>
+                                        <td width="20%"><strong>Persentase Nilai</strong></td>
+                                        <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                        <td><strong><?= $value['persentase_nilai']; ?> %</strong></td>
                                     </tr>
                                     <tr class="fw-bold text-danger">
-                                        <td width="20%">Pendapatan Bersih</td>
-                                        <td width="3%" style="text-align: right;">:</td>
-                                        <td>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></td>
+                                        <td width="20%"><strong>Pendapatan Bersih</strong></td>
+                                        <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                        <td><strong>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></strong></td>
                                     </tr>
                                     <tr class="fw-bold">
-                                        <td width="20%">Status</td>
-                                        <td width="3%" style="text-align: right;">:</td>
-                                        <td><?= $value['status']; ?></td>
+                                        <td width="20%"><strong>Status</strong></td>
+                                        <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                        <td><strong><?= $value['status']; ?></strong></td>
                                     </tr>
                                     <tr class="fw-bold text-success">
                                         <td width="20%" style="font-weight: bold;">Penerimaan Biaya</td>
@@ -150,6 +160,11 @@ $dataRentangPendapatan = mysqli_query($koneksi, "SELECT * FROM tb_rentang_pendap
                                         <?php elseif ($value['status'] == 'Ditolak') : ?>
                                             <td class="text-danger" style="font-weight: bold; color:blueviolet">Rp. <?= number_format(0, 0, '.', '.'); ?></td>
                                         <?php endif; ?>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td width="20%"><strong>Bukti Lampiran Survei</strong></td>
+                                        <td width="3%" style="text-align: right;"><strong>:</strong></td>
+                                        <td><a href="../assets/image/foto lampiran survei/<?= $value['bukti_lampiran_survei'] ?>" target="_blank"><img src="../assets/image/foto lampiran survei/<?= $value['bukti_lampiran_survei'] ?>" alt="" width="200px" height="300px"></a></td>
                                     </tr>
 
                                     <!-- <tr style="border-bottom:2px;">
