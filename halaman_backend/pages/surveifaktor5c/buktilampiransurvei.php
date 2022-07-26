@@ -4,8 +4,10 @@
 
     $id_jaminan = $data['id_jaminan_nasabah'];
 
+
+
     // Query menampilkan data validasi peminjaman
-    $dataPeminjaman = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE jn.id_jaminan_nasabah")->fetch_array();
+    $dataPeminjaman = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE jn.id_jaminan_nasabah=$id_jaminan")->fetch_array();
     ?>
 
  <!-- Content Wrapper. Contains page content -->
@@ -37,6 +39,10 @@
                          </div>
                          <div class="card-body">
                              <form action="" method="POST" enctype="multipart/form-data">
+                                 <input type="hidden" class="form-control" name="id_jaminan_nasabah" value="<?php echo $id_jaminan ?>">
+                                 <input type="hidden" class="form-control" name="nominal_pinjaman" value="<?php echo $dataPeminjaman['nominal_pinjaman']; ?>">
+                                 <input type="hidden" class="form-control" name="pendapatan_bersih_per_bulan" value="<?php echo $dataPeminjaman['pendapatan_bersih_per_bulan']; ?>">
+                                 <input type="hidden" class="form-control" name="nilai_nasabah" value="<?php echo $dataPeminjaman['nilai_nasabah']; ?>">
                                  <input type="hidden" class="form-control" name="id_hasil" value="<?php echo $data['id_hasil'] ?>">
                                  <div class="form-group">
                                      <label for="bukti_lampiran_survei">Upload Bukti Lampiran Survei:</label>
@@ -53,6 +59,15 @@
                                 if (isset($_POST['simpan'])) {
                                     $id_hasil = $_POST['id_hasil'];
 
+                                    $id_jaminan_nasabah = $_POST['id_jaminan_nasabah'];
+                                    $nominal_pinjaman = $_POST['nominal_pinjaman'];
+                                    $pendapatan_bersih = $_POST['pendapatan_bersih_per_bulan'];
+                                    $nilai_nasabah = $_POST['nilai_nasabah'];
+
+                                    // var_dump($id_jaminan_nasabah, $nominal_pinjaman, $pendapatan_bersih, $nilai_nasabah);
+                                    // die;
+
+
                                     $nama_bukti_lampiran_survei = $_FILES['bukti_lampiran_survei']['name'];
                                     $lokasi_bukti_lampiran_survei = $_FILES['bukti_lampiran_survei']['tmp_name'];
                                     $bukti_lampiran_survei = uniqid(rand(), true) . '_' . $nama_bukti_lampiran_survei;
@@ -64,11 +79,7 @@
                                     // Query mmenyimpan data kedalam tabel bukti survei
                                     $simpan = mysqli_query($koneksi, "INSERT INTO tb_bukti_survei (`id_hasil`,`bukti_lampiran_survei`, `status_validasi_hasil`) VALUES ('$id_hasil','$bukti_lampiran_survei','$status_validasi_hasil')");
 
-                                    if ($simpan) {
-                                        $id_jaminan_nasabah = $dataPeminjaman['id_jaminan_nasabah'];
-                                        $nominal_pinjaman = $dataPeminjaman['nominal_pinjaman'];
-                                        $pendapatan_bersih = $dataPeminjaman['pendapatan_bersih_per_bulan'];
-                                        $nilai_nasabah = $dataPeminjaman['nilai_nasabah'];
+                                    if ($simpan == TRUE) {
 
                                         $dataPendapatanMinimum = mysqli_query($koneksi, "SELECT nilai_pendapatan_minimum FROM tb_rentang_pendapatan")->fetch_array();
                                         $pendapatan_minimum = $dataPendapatanMinimum['nilai_pendapatan_minimum'];
