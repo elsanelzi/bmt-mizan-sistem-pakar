@@ -8,11 +8,12 @@
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h3>Sistem Pakar</h3>
                     <p>
-                        BMT Mizan <br>
-                        Padang<br>
-                        Sumatera Barat <br><br>
-                        <strong>Telepon :</strong> +628 3130 3317 53<br>
-                        <strong>Email:</strong> bmtmizan@gmail.com<br>
+                        <strong>
+                            <h5>BMT Mizan </h5>
+                        </strong>
+                        Jl. Raya Lubuk Begalung No. 4<br>
+                        Padang, Sumatera Barat <br><br>
+                        <strong>Telepon :</strong> (0751) 71600<br>
                     </p>
                 </div>
 

@@ -38,11 +38,11 @@
                      <div class="form-group">
                          <label for="jangka_waktu">Jangka Waktu</label>
                          <select name="jangka_waktu" class="form-control" id="jangka_waktu" required>
-                             <option value="3">-- PILIH JANGKA WAKTU --</option>
-                             <option value="3">3 Bulan</option>
-                             <option value="6">6 Bulan</option>
+                             <option value="10">-- PILIH JANGKA WAKTU --</option>
+                             <option value="10">10 Bulan</option>
                              <option value="12">12 Bulan</option>
                              <option value="18">18 Bulan</option>
+                             <option value="20">20 Bulan</option>
                              <option value="24">24 Bulan</option>
                          </select>
                      </div>
