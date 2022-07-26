@@ -1,4 +1,4 @@
-<?php $dataPemberianPembiayaanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON ppn.nik_username=n.nik_username LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah WHERE status='konfirmasi' || status='analisa pendapatan' || status='Diterima' || status='Ditolak' ORDER BY ppn.id_pemberian_pembiayaan_nasabah ASC");
+<?php $dataPemberianPembiayaanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON ppn.nik_username=n.nik_username LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah WHERE status='selesai survei 5c' || status='analisa pendapatan' || status='Diterima' || status='Ditolak' ORDER BY ppn.id_pemberian_pembiayaan_nasabah ASC");
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -60,7 +60,7 @@
                                         <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['status']; ?></td>
                                         <td class="text-center">
-                                            <?php if ($value['status'] == 'konfirmasi') : ?>
+                                            <?php if ($value['status'] == 'selesai survei 5c') : ?>
                                                 <a href="?page=pages/biaya/formanalisapendapatan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-danger">Analisa</i></a>
                                             <?php elseif ($value['status'] == 'analisa pendapatan' || $value['status'] == 'Ditolak' || $value['status'] == 'Diterima') : ?>
                                                 <a href="" data-toggle="modal" data-target="#lihat_hasil_analisa<?= $value['id_pemberian_pembiayaan_nasabah'] ?>" class="btn btn-danger btn-md float-right">Lihat Hasil Analisa</a>
