@@ -3,6 +3,14 @@
 session_start(); ?>
 
 <?php
+$error_latitude = "";
+$error_longitude = "";
+$error_denah_lokasi = "";
+$latitude = "";
+$longitude = "";
+$denah_lokasi = "";
+
+
 $error_nik_username = "";
 $error_nama_lengkap = "";
 $error_no_telepon = "";
@@ -10,6 +18,8 @@ $error_alamat = "";
 $error_foto_nasabah = "";
 $error_foto_ktp_nasabah = "";
 $error_password = "";
+
+
 
 $nik_username = "";
 $nama_lengkap = "";
@@ -73,6 +83,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = mysqli_escape_string($koneksi, $password);
     }
 
+    // Cek Validation Denah Lokasi
+    if (empty($_POST['denah_lokasi'])) {
+        $error_denah_lokasi = "Denah Lokasi tidak boleh kosong";
+    } else {
+        $denah_lokasi = cek_input($_POST['denah_lokasi']);
+        $denah_lokasi = mysqli_escape_string($koneksi, $denah_lokasi);
+    }
+
     $status = 'nasabah';
     $status_validasi = 0;
 
@@ -108,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $foto_ktp_nasabah = mysqli_escape_string($koneksi, $foto_ktp_nasabah);
     }
 
-    if (!empty($nik_username) && !empty($nama_lengkap) && !empty($no_telepon) && !empty($alamat) && !empty($foto_nasabah) && !empty($foto_ktp_nasabah) && !empty($password)) {
+    if (!empty($nik_username) && !empty($nama_lengkap) && !empty($no_telepon) && !empty($alamat) && !empty($foto_nasabah) && !empty($foto_ktp_nasabah) && !empty($password) && !empty($denah_lokasi)) {
         // Query untuk menyimpan data ke dalam tabel user
         $simpanUser = mysqli_query($koneksi, "INSERT INTO tb_user (`nik_username`, `password`,`status` ) VALUES ('$nik_username', '$password', '$status')");
 
@@ -135,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             // Query untuk menyimpan data ke table nasabah
-            $simpanNasabah = mysqli_query($koneksi, "INSERT INTO tb_nasabah (`nik_username`,`nama_lengkap`, `password`, `alamat`,`no_telepon`, `foto_nasabah`,`foto_ktp_nasabah`,`status_validasi` ) VALUES ('$nik_username','$nama_lengkap', '$password','$alamat', '$no_telepon','$foto_nasabah', '$foto_ktp_nasabah','$status_validasi')");
+            $simpanNasabah = mysqli_query($koneksi, "INSERT INTO tb_nasabah (`nik_username`,`nama_lengkap`, `password`, `alamat`,`denah_lokasi`,`no_telepon`, `foto_nasabah`,`foto_ktp_nasabah`,`status_validasi` ) VALUES ('$nik_username','$nama_lengkap', '$password','$alamat','$denah_lokasi', '$no_telepon','$foto_nasabah', '$foto_ktp_nasabah','$status_validasi')");
 
 
             // Move foto nasabah
@@ -186,6 +204,12 @@ function cek_input($data)
     <script src="../../assets/assets_login/js/init-alpine.js"></script>
     <!-- Sweet Alert 2 -->
     <script src="../../assets/sweet alert2/sweetalert2.min.js"></script>
+
+    <!-- MAPS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
 
 
     <!-- Sweet Alert 2 -->
@@ -243,6 +267,25 @@ function cek_input($data)
                                 <textarea name="alamat" rows="3" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_alamat != "" ? "is-invalid" : ""); ?>" id="alamat" placeholder="Masukan Alamat" value="<?php echo $alamat; ?>"></textarea>
                                 <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_alamat; ?></span>
                             </label>
+                            <!-- <label class="block text-sm">
+                                <span for="latitude" class="text-gray-700 dark:text-gray-400">Latitude</span>
+                                <input name="latitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_latitude != "" ? "is-invalid" : ""); ?>" id="latitude" placeholder="Masukan Latitude" value="<?php echo $latitude; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_latitude; ?></span>
+                            </label> <label class="block text-sm">
+                                <span for="longitude" class="text-gray-700 dark:text-gray-400">Longitude</span>
+                                <input name="longitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_longitude != "" ? "is-invalid" : ""); ?>" id="longitude" placeholder="Masukan Longitude" value="<?php echo $longitude; ?>" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_longitude; ?></span>
+                            </label> -->
+                            <label class="block text-sm">
+                                <input name="latitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_latitude != "" ? "is-invalid" : ""); ?>" id="latitude" placeholder="Masukan Latitude" value="<?php echo $latitude; ?>" type="hidden" />
+                                <input name="longitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_longitude != "" ? "is-invalid" : ""); ?>" id="longitude" placeholder="Masukan Longitude" value="<?php echo $longitude; ?>" type="hidden" />
+                                <span for="denah_lokasi" class="text-gray-700 dark:text-gray-400">Denah Lokasi</span>
+                                <input name="denah_lokasi" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_denah_lokasi != "" ? "is-invalid" : ""); ?>" id="denah_lokasi" placeholder="Masukan Denah Lokasi" value="<?php echo $denah_lokasi; ?>" type="hidden" />
+                                <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_denah_lokasi; ?></span>
+                            </label>
+                            <label class="block text-sm">
+                                <div id="map" style="width: 100%; height: 200px; margin-top:10px; margin-bottom:10px;"></div>
+                            </label>
                             <label class="block text-sm">
                                 <span for="foto_nasabah" class="text-gray-700 dark:text-gray-400">Foto Nasabah</span>
                                 <input name="foto_nasabah" type="file" id="foto_nasabah" class="block w-full py-2 mt-1 text-sm font-medium text-dark bg-gray border border-transparent rounded-lg <?php echo ($error_foto_nasabah != "" ? "is-invalid" : ""); ?>" value="<?php echo $foto_nasabah; ?>" />
@@ -274,6 +317,51 @@ function cek_input($data)
                 </div>
             </div>
         </div>
+
+        <script>
+            var map = L.map('map').setView([-0.9578390368896975, 100.40169742995735], 16);
+
+            var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            // get coordinat location
+            var latInput = document.querySelector("[name=latitude]");
+            var lngInput = document.querySelector("[name=longitude]");
+            var denahInput = document.querySelector("[name=denah_lokasi]");
+
+            var curLocation = [-0.9578390368896975, 100.40169742995735];
+            map.attributionControl.setPrefix(false);
+
+            var marker = new L.marker(curLocation, {
+                draggable: 'true',
+            });
+
+            marker.on('dragend', function(event) {
+                var position = marker.getLatLng();
+                marker.setLatLng(position, {
+                    draggable: 'true',
+                }).bindPopup(position).update();
+                $("#latitude").val(position.lat);
+                $("#longitude").val(position.lng);
+                $("#denah_lokasi").val(position.lat + "," + position.lng);
+            });
+
+            map.addLayer(marker);
+            map.on("click", function(e) {
+                var lat = e.latlng.lat;
+                var lng = e.latlng.lng;
+                if (!marker) {
+                    marker = L.marker(e.latlng).addTo(map);
+                } else {
+                    marker.setLatLng(e.latlng);
+                }
+                latInput.value = lat;
+                lngInput.value = lng;
+                denahInput.value = lat + "," + lng;
+
+            });
+        </script>
 
 
     </div>

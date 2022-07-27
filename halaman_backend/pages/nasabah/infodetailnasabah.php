@@ -83,7 +83,7 @@ $detailDataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,n.nik_usernam
                                         <td width="10%">:</td>
                                         <td><img src="../assets/image/foto ktp nasabah/<?= $value['foto_ktp_nasabah'] ?>" alt="" width="100px" height="100px"></td>
                                     </tr>
-                                    <tr style="border-bottom:2px;">
+                                    <!-- <tr style="border-bottom:2px;">
                                         <td colspan="3" style="text-align:left; font-weight:bold">DATA PEMBERIAN PEMBIAYAAN NASABAH : </td>
                                     </tr>
                                     <tr>
@@ -163,7 +163,7 @@ $detailDataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,n.nik_usernam
                                         <td width="30%">Foto Nomor Mesin</td>
                                         <td width="10%">:</td>
                                         <td><img src="../assets/image/foto detail jaminan nasabah/<?= $value['nomor_mesin'] ?>" alt="" width="100px" height="100px"></td>
-                                    </tr>
+                                    </tr> -->
                                 <?php endforeach; ?>
                             </tbody>
                         </table>

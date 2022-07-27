@@ -3,6 +3,10 @@ $id = $_GET['id'];
 $nik_username = $_SESSION['username'];
 // Query menampilkan data detail dari nasabah yang melakukan peminjaman
 $detailDataPeminjamanNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,n.nik_username as nik_username, jp.*,jn.*,n.alamat as alamat_nasabah FROM tb_nasabah n LEFT JOIN tb_pemberian_pembiayaan_nasabah pp ON n.nik_username=pp.nik_username LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=pp.id_jenis_pembiayaan LEFT JOIN tb_jaminan_nasabah jn ON jn.id_pemberian_pembiayaan_nasabah=pp.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_detail_jaminan_nasabah djn ON djn.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE pp.id_pemberian_pembiayaan_nasabah='$id' AND n.nik_username='$nik_username' ORDER BY jn.id_jaminan_nasabah DESC");
+
+$detailDataPeminjamanSertifikatNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djs.*,n.nik_username as nik_username, jp.*,jn.*,n.alamat as alamat_nasabah FROM tb_nasabah n LEFT JOIN tb_pemberian_pembiayaan_nasabah pp ON n.nik_username=pp.nik_username LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=pp.id_jenis_pembiayaan LEFT JOIN tb_jaminan_nasabah jn ON jn.id_pemberian_pembiayaan_nasabah=pp.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_detail_jaminan_sertifikat djs ON djs.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE pp.id_pemberian_pembiayaan_nasabah='$id' AND n.nik_username='$nik_username' ORDER BY jn.id_jaminan_nasabah DESC");
+
+
 ?>
 
 <!-- ======= Contact Section ======= -->
@@ -127,21 +131,33 @@ $detailDataPeminjamanNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,n.n
                                                         <td width="10%">:</td>
                                                         <td><img src="assets/image/foto jaminan nasabah/<?= $value['foto_KK'] ?>" alt="" width="100px" height="100px"></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td width="30%">Foto BPKP</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto jaminan nasabah/<?= $value['foto_BPKP'] ?>" alt="" width="100px" height="100px"></td>
+                                                    <?php if ($value['jenis_jaminan'] == 'Kendaraan') : ?>
+                                                        <tr>
+                                                            <td width="30%">Foto BPKP</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto jaminan nasabah/<?= $value['foto_BPKP'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                     </tr>
+                                                    <?php if ($value['jenis_jaminan'] == 'Sertifikat') : ?>
+                                                        <tr>
+                                                            <td width="30%">Foto Sertifikat</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto jaminan sertifikat/<?= $value['foto_sertifikat'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                     <tr>
                                                         <td width="30%">Foto Surat Izin Usaha</td>
                                                         <td width="10%">:</td>
                                                         <td><img src="assets/image/foto jaminan nasabah/<?= $value['foto_surat_izin_usaha'] ?>" alt="" width="100px" height="100px"></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td width="30%">Foto STNK</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto jaminan nasabah/<?= $value['foto_STNK'] ?>" alt="" width="100px" height="100px"></td>
-                                                    </tr>
+                                                    <?php if ($value['jenis_jaminan'] == 'Kendaraan') : ?>
+                                                        <tr>
+                                                            <td width="30%">Foto STNK</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto jaminan nasabah/<?= $value['foto_STNK'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                     <tr>
                                                         <td width="30%">Foto Rekening Listrik</td>
                                                         <td width="10%">:</td>
@@ -152,46 +168,84 @@ $detailDataPeminjamanNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,n.n
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div>
-                                            <h5 style="padding:10px;" class="text-danger fw-bold"">Data Detail Jaminan Peminjaman Nasabah</h5>
+                                </tr>
+                                <?php if ($value['jenis_jaminan'] == 'Kendaraan') : ?>
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div>
+                                                <h5 style="padding:10px;" class="text-danger fw-bold"">Data Detail Jaminan Kendaraan Peminjaman Nasabah</h5>
                                             <hr>
                                     </div>
                                     <table id=" dataTable" class="table table-hover">
-                                                <?php
-                                                foreach ($detailDataPeminjamanNasabah as $key => $value) : ?>
-                                                    <tr>
-                                                        <td width="30%">Foto Tampak Depan</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['foto_tampak_depan'] ?>" alt="" width="100px" height="100px"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="30%">Foto Tampak Belakang</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['foto_tampak_belakang'] ?>" alt="" width="100px" height="100px"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="30%">Foto Tampak Samping</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['foto_tampak_samping'] ?>" alt="" width="100px" height="100px"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="30%">Foto Nomor Angka</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['nomor_angka'] ?>" alt="" width="100px" height="100px"></td>
-                                                    </tr>
+                                                    <?php
+                                                    foreach ($detailDataPeminjamanNasabah as $key => $value) : ?>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Depan</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['foto_tampak_depan'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Belakang</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['foto_tampak_belakang'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Samping</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['foto_tampak_samping'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="30%">Foto Nomor Angka</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['nomor_angka'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
 
-                                                    <tr>
-                                                        <td width="30%">Foto Nomor Mesin</td>
-                                                        <td width="10%">:</td>
-                                                        <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['nomor_mesin'] ?>" alt="" width="100px" height="100px"></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                                </table>
+                                                        <tr>
+                                                            <td width="30%">Foto Nomor Mesin</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan nasabah/<?= $value['nomor_mesin'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                    </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php else :  ?>
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div>
+                                                <h5 style="padding:10px;" class="text-danger fw-bold"">Data Detail Jaminan Sertifikat Peminjaman Nasabah</h5>
+                                            <hr>
+                                    </div>
+                                    <table id=" dataTable" class="table table-hover">
+                                                    <?php
+                                                    foreach ($detailDataPeminjamanSertifikatNasabah as $key => $value) : ?>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Depan</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_depan'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Belakang</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_belakang'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Samping</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_samping'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="30%">Foto Tampak Atas</td>
+                                                            <td width="10%">:</td>
+                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_atas'] ?>" alt="" width="100px" height="100px"></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                    </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             <!-- /.card-body -->
 

@@ -2,6 +2,35 @@
     $nik_username = $_SESSION['username'];
     $dataPemberianPembiayaanNasabah = mysqli_query($koneksi, "SELECT * from tb_pemberian_pembiayaan_nasabah WHERE nik_username='$nik_username' ORDER BY id_pemberian_pembiayaan_nasabah DESC")->fetch_array(); ?>
  <!-- ======= Contact Section ======= -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+ <script type="text/javascript">
+     $(window).load(function() {
+         $("#jenis_jaminan").change(function() {
+             console.log($("#jenis_jaminan option:selected").val());
+             // Kendaraan 
+             if ($("#jenis_jaminan option:selected").val() == 'Kendaraan') {
+                 $('#BPKP').prop('hidden', false);
+                 $('#STNK').prop('hidden', false);
+                 // alert('Yeay, Lunas');
+             } else {
+                 // alert('Yahhh, Masuh Belum Lunas');
+                 $('#BPKP').prop('hidden', true);
+                 $('#STNK').prop('hidden', true);
+             }
+
+             //  Sertifikat
+             if ($("#jenis_jaminan option:selected").val() == 'Sertifikat') {
+                 $('#sertifikat').prop('hidden', false);
+                 // alert('Yeay, Lunas');
+             } else {
+                 // alert('Yahhh, Masuh Belum Lunas');
+                 $('#sertifikat').prop('hidden', true);
+             }
+
+         });
+     });
+ </script>
+
  <section id="contact" class="contact">
      <br><br>
      <div class="container" data-aos="fade-up">
@@ -26,20 +55,32 @@
                          <input type="text" name="id_pemberian_pembiayaan_nasabah" class="form-control" value="<?= $dataPemberianPembiayaanNasabah['id_pemberian_pembiayaan_nasabah'] ?>" id="id_pemberian_pembiayaan_nasabah" readonly>
                      </div>
                      <div class="form-group">
+                         <label for="jenis_jaminan">Jenis Jaminan</label>
+                         <select name="jenis_jaminan" id="jenis_jaminan" class="form-control" required>
+                             <option value="Kendaraan">-- PILIH JENIS JAMINAN --</option>
+                             <option value="Kendaraan">Kendaraan</option>
+                             <option value="Sertifikat">Sertifikat</option>
+                         </select>
+                     </div>
+                     <div class="form-group">
                          <label for="foto_KK">Foto KK</label>
                          <input type="file" name="foto_KK" class="form-control" id="foto_KK" required>
                      </div>
-                     <div class="form-group">
+                     <div class="form-group" id="BPKP" hidden>
                          <label for="foto_BPKP">Foto BPKP</label>
-                         <input type="file" name="foto_BPKP" class="form-control" id="foto_BPKP" required>
+                         <input type="file" name="foto_BPKP" class="form-control" id="foto_BPKP">
+                     </div>
+                     <div class="form-group" id="sertifikat" hidden>
+                         <label for="foto_sertifikat">Foto Sertifikat</label>
+                         <input type="file" name="foto_sertifikat" class="form-control" id="foto_sertifikat">
                      </div>
                      <div class="form-group">
                          <label for="foto_surat_izin_usaha">Foto Surat Izin Usaha</label>
                          <input type="file" name="foto_surat_izin_usaha" class="form-control" id="foto_surat_izin_usaha" required>
                      </div>
-                     <div class="form-group">
+                     <div class="form-group" id="STNK" hidden>
                          <label for="foto_STNK">Foto STNK</label>
-                         <input type="file" name="foto_STNK" class="form-control" id="foto_STNK" required>
+                         <input type="file" name="foto_STNK" class="form-control" id="foto_STNK">
                      </div>
                      <div class="form-group">
                          <label for="foto_rekening_listrik">Foto Rekening Listrik</label>
@@ -52,6 +93,7 @@
 
                     if (isset($_POST['save'])) {
                         $id_pemberian_pembiayaan_nasabah = $_POST['id_pemberian_pembiayaan_nasabah'];
+                        $jenis_jaminan = $_POST['jenis_jaminan'];
 
                         $nama_foto_KK = $_FILES['foto_KK']['name'];
                         $lokasi_foto_KK = $_FILES['foto_KK']['tmp_name'];
@@ -65,17 +107,7 @@
                         // $foto_KK = time() . '_' . $nama_foto_KK;
                         $pindah = move_uploaded_file($lokasi_foto_KK, 'assets/image/foto jaminan nasabah/' . $foto_KK);
 
-                        $nama_foto_BPKP = $_FILES['foto_BPKP']['name'];
-                        $lokasi_foto_BPKP = $_FILES['foto_BPKP']['tmp_name'];
-                        $foto_BPKP = uniqid(rand(), true) .  '_' . $nama_foto_BPKP;
-                        while (true) {
-                            $foto_BPKP = uniqid(rand(), true) .  '_' . $nama_foto_BPKP;
 
-                            if (!file_exists(sys_get_temp_dir() . $foto_BPKP))
-                                break;
-                        }
-                        // $foto_BPKP = time() . '_' . $nama_foto_BPKP;
-                        $pindah = move_uploaded_file($lokasi_foto_BPKP, 'assets/image/foto jaminan nasabah/' . $foto_BPKP);
 
                         $nama_foto_surat_izin_usaha = $_FILES['foto_surat_izin_usaha']['name'];
                         $lokasi_foto_surat_izin_usaha = $_FILES['foto_surat_izin_usaha']['tmp_name'];
@@ -88,18 +120,6 @@
                         }
                         // $foto_surat_izin_usaha = time() . '_' . $nama_foto_surat_izin_usaha;
                         $pindah = move_uploaded_file($lokasi_foto_surat_izin_usaha, 'assets/image/foto jaminan nasabah/' . $foto_surat_izin_usaha);
-
-                        $nama_foto_STNK = $_FILES['foto_STNK']['name'];
-                        $lokasi_foto_STNK = $_FILES['foto_STNK']['tmp_name'];
-                        $foto_STNK = uniqid(rand(), true) . '_' . $nama_foto_STNK;
-                        while (true) {
-                            $foto_STNK = uniqid(rand(), true) . '_' . $nama_foto_STNK;
-
-                            if (!file_exists(sys_get_temp_dir() . $foto_STNK))
-                                break;
-                        }
-                        // $foto_STNK = time() . '_' . $nama_foto_STNK;
-                        $pindah = move_uploaded_file($lokasi_foto_STNK, 'assets/image/foto jaminan nasabah/' . $foto_STNK);
 
                         $nama_foto_rekening_listrik = $_FILES['foto_rekening_listrik']['name'];
                         $lokasi_foto_rekening_listrik = $_FILES['foto_rekening_listrik']['tmp_name'];
@@ -115,17 +135,75 @@
 
                         $status = 'pending';
 
-                        //// Query menyimpan data ke dalam tabel Jaminan Nasabah
-                        $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`foto_KK`, `foto_BPKP`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$foto_KK', '$foto_BPKP', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik', '$status')");
+                        if ($jenis_jaminan == 'Kendaraan') {
+                            $nama_foto_BPKP = $_FILES['foto_BPKP']['name'];
+                            $lokasi_foto_BPKP = $_FILES['foto_BPKP']['tmp_name'];
+                            $foto_BPKP = uniqid(rand(), true) .  '_' . $nama_foto_BPKP;
+                            while (true) {
+                                $foto_BPKP = uniqid(rand(), true) .  '_' . $nama_foto_BPKP;
 
-                        if ($simpan) {
-                            $_SESSION['info'] = 'Berhasil Disimpan';
-                            echo "<script>
+                                if (!file_exists(sys_get_temp_dir() . $foto_BPKP))
+                                    break;
+                            }
+                            // $foto_BPKP = time() . '_' . $nama_foto_BPKP;
+
+
+                            $nama_foto_STNK = $_FILES['foto_STNK']['name'];
+                            $lokasi_foto_STNK = $_FILES['foto_STNK']['tmp_name'];
+                            $foto_STNK = uniqid(rand(), true) . '_' . $nama_foto_STNK;
+                            while (true) {
+                                $foto_STNK = uniqid(rand(), true) . '_' . $nama_foto_STNK;
+
+                                if (!file_exists(sys_get_temp_dir() . $foto_STNK))
+                                    break;
+                            }
+                            // $foto_STNK = time() . '_' . $nama_foto_STNK;
+                            $foto_sertifikat = "";
+
+
+                            //// Query menyimpan data ke dalam tabel Jaminan Nasabah
+                            $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`jenis_jaminan`,`foto_KK`, `foto_BPKP`,`foto_sertifikat`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$jenis_jaminan','$foto_KK', '$foto_BPKP','$foto_sertifikat', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik', '$status')");
+
+                            $pindah = move_uploaded_file($lokasi_foto_BPKP, 'assets/image/foto jaminan nasabah/' . $foto_BPKP);
+                            $pindah = move_uploaded_file($lokasi_foto_STNK, 'assets/image/foto jaminan nasabah/' . $foto_STNK);
+
+                            if ($simpan) {
+                                $_SESSION['info'] = 'Berhasil Disimpan';
+                                echo "<script>
                         window.location.href = '?page=halaman_awal/pages/peminjaman/formdetailjaminan'</script>";
-                        } else {
-                            $_SESSION['info'] = 'Gagal Disimpan';
-                            echo "<script>window.location.href = '?page=halaman_awal/pages/peminjaman/formdetailjaminan'
+                            } else {
+                                $_SESSION['info'] = 'Gagal Disimpan';
+                                echo "<script>window.location.href = '?page=halaman_awal/pages/peminjaman/formdetailjaminan'
                         </script>";
+                            }
+                        } else {
+                            $nama_foto_sertifikat = $_FILES['foto_sertifikat']['name'];
+                            $lokasi_foto_sertifikat = $_FILES['foto_sertifikat']['tmp_name'];
+                            $foto_sertifikat = uniqid(rand(), true) . '_' . $nama_foto_sertifikat;
+                            while (true) {
+                                $foto_sertifikat = uniqid(rand(), true) . '_' . $nama_foto_sertifikat;
+
+                                if (!file_exists(sys_get_temp_dir() . $foto_sertifikat))
+                                    break;
+                            }
+                            // $foto_sertifikat = time() . '_' . $nama_foto_sertifikat;
+                            $foto_BPKP = "";
+                            $foto_STNK = "";
+
+                            //// Query menyimpan data ke dalam tabel Jaminan Nasabah
+                            $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`jenis_jaminan`,`foto_KK`, `foto_BPKP`,`foto_sertifikat`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$jenis_jaminan','$foto_KK', '$foto_BPKP','$foto_sertifikat', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik', '$status')");
+
+                            $pindah = move_uploaded_file($lokasi_foto_sertifikat, 'assets/image/foto jaminan sertifikat/' . $foto_sertifikat);
+
+                            if ($simpan) {
+                                $_SESSION['info'] = 'Berhasil Disimpan';
+                                echo "<script>
+                        window.location.href = '?page=halaman_awal/pages/peminjaman/formdetailjaminansertifikat'</script>";
+                            } else {
+                                $_SESSION['info'] = 'Gagal Disimpan';
+                                echo "<script>window.location.href = '?page=halaman_awal/pages/peminjaman/formdetailjaminansertifikat'
+                        </script>";
+                            }
                         }
                     }
 
