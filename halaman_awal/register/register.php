@@ -3,12 +3,12 @@
 session_start(); ?>
 
 <?php
-$error_latitude = "";
-$error_longitude = "";
-$error_denah_lokasi = "";
-$latitude = "";
-$longitude = "";
-$denah_lokasi = "";
+// $error_latitude = "";
+// $error_longitude = "";
+// $error_denah_lokasi = "";
+// $latitude = "";
+// $longitude = "";
+// $denah_lokasi = "";
 
 
 $error_nik_username = "";
@@ -83,29 +83,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = mysqli_escape_string($koneksi, $password);
     }
 
-    // Cek Validation Denah Lokasi
-    if (empty($_POST['denah_lokasi'])) {
-        $error_denah_lokasi = "Denah Lokasi tidak boleh kosong";
-    } else {
-        $denah_lokasi = cek_input($_POST['denah_lokasi']);
-        $denah_lokasi = mysqli_escape_string($koneksi, $denah_lokasi);
-    }
+    // // Cek Validation Denah Lokasi
+    // if (empty($_POST['denah_lokasi'])) {
+    //     $error_denah_lokasi = "Denah Lokasi tidak boleh kosong";
+    // } else {
+    //     $denah_lokasi = cek_input($_POST['denah_lokasi']);
+    //     $denah_lokasi = mysqli_escape_string($koneksi, $denah_lokasi);
+    // }
 
     $status = 'nasabah';
     $status_validasi = 0;
+
+    // Max Ukuran foto 10 MB(10240000 KB)
+    $max_size = 10240000;
+    $ekstensi_file = array('pdf', 'jpeg', 'jpg', 'png');
 
     // Cek Validation Foto Nasabah 
     $nama_foto_nasabah = $_FILES['foto_nasabah']['name'];
     $lokasi_foto_nasabah = $_FILES['foto_nasabah']['tmp_name'];
     $size_foto_nasabah = $_FILES['foto_nasabah']['size'];
+    $ekstensi_foto_nasabah = strtolower(end(explode('.', $_FILES['foto_nasabah']['name'])));
+    // var_dump($nama_foto_nasabah, $ekstensi_foto_nasabah);
+    // die;
+    $ekstensi_ok_foto_nasabah = in_array($ekstensi_foto_nasabah, $ekstensi_file);
 
-    // Max Ukuran foto 10 MB(10240000 KB)
-    $max_size = 10240000;
 
     if (empty($nama_foto_nasabah)) {
         $error_foto_nasabah = "Foto Nasabah tidak boleh kosong";
     } else if ($size_foto_nasabah > $max_size) {
         $error_foto_nasabah = "Ukuran Foto Maksimal 10 MB";
+    } else if (!($ekstensi_ok_foto_nasabah)) {
+        $error_foto_nasabah = "Ooops! Ekstensi type Foto Nasabah tidak didukung";
     } else {
         $foto_nasabah = cek_input($nama_foto_nasabah);
         $foto_nasabah = mysqli_escape_string($koneksi, $foto_nasabah);
@@ -116,17 +124,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['name'];
     $lokasi_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['tmp_name'];
     $size_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['size'];
+    $ekstensi_foto_ktp_nasabah = end(explode('.', $nama_foto_ktp_nasabah));
+    $ekstensi_ok_foto_ktp_nasabah = in_array($ekstensi_foto_ktp_nasabah, $ekstensi_file);
 
     if (empty($nama_foto_ktp_nasabah)) {
         $error_foto_ktp_nasabah = "Foto KTP Nasabah tidak boleh kosong";
     } else if ($size_foto_ktp_nasabah > $max_size) {
         $error_foto_ktp_nasabah = "Ukuran Foto Maksimal 10 MB";
+    } else if (!($ekstensi_ok_foto_ktp_nasabah)) {
+        $error_foto_ktp_nasabah = "Ooops! Ekstensi type Foto KTP Nasabah tidak didukung";
     } else {
         $foto_ktp_nasabah = cek_input($nama_foto_ktp_nasabah);
         $foto_ktp_nasabah = mysqli_escape_string($koneksi, $foto_ktp_nasabah);
     }
 
-    if (!empty($nik_username) && !empty($nama_lengkap) && !empty($no_telepon) && !empty($alamat) && !empty($foto_nasabah) && !empty($foto_ktp_nasabah) && !empty($password) && !empty($denah_lokasi)) {
+    if (!empty($nik_username) && !empty($nama_lengkap) && !empty($no_telepon) && !empty($alamat) && !empty($foto_nasabah) && !empty($foto_ktp_nasabah) && !empty($password)) {
         // Query untuk menyimpan data ke dalam tabel user
         $simpanUser = mysqli_query($koneksi, "INSERT INTO tb_user (`nik_username`, `password`,`status` ) VALUES ('$nik_username', '$password', '$status')");
 
@@ -153,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             // Query untuk menyimpan data ke table nasabah
-            $simpanNasabah = mysqli_query($koneksi, "INSERT INTO tb_nasabah (`nik_username`,`nama_lengkap`, `password`, `alamat`,`denah_lokasi`,`no_telepon`, `foto_nasabah`,`foto_ktp_nasabah`,`status_validasi` ) VALUES ('$nik_username','$nama_lengkap', '$password','$alamat','$denah_lokasi', '$no_telepon','$foto_nasabah', '$foto_ktp_nasabah','$status_validasi')");
+            $simpanNasabah = mysqli_query($koneksi, "INSERT INTO tb_nasabah (`nik_username`,`nama_lengkap`, `password`, `alamat`,`no_telepon`, `foto_nasabah`,`foto_ktp_nasabah`,`status_validasi` ) VALUES ('$nik_username','$nama_lengkap', '$password','$alamat','$no_telepon','$foto_nasabah', '$foto_ktp_nasabah','$status_validasi')");
 
 
             // Move foto nasabah
@@ -276,7 +288,7 @@ function cek_input($data)
                                 <input name="longitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_longitude != "" ? "is-invalid" : ""); ?>" id="longitude" placeholder="Masukan Longitude" value="<?php echo $longitude; ?>" />
                                 <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_longitude; ?></span>
                             </label> -->
-                            <label class="block text-sm">
+                            <!-- <label class="block text-sm">
                                 <input name="latitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_latitude != "" ? "is-invalid" : ""); ?>" id="latitude" placeholder="Masukan Latitude" value="<?php echo $latitude; ?>" type="hidden" />
                                 <input name="longitude" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_longitude != "" ? "is-invalid" : ""); ?>" id="longitude" placeholder="Masukan Longitude" value="<?php echo $longitude; ?>" type="hidden" />
                                 <span for="denah_lokasi" class="text-gray-700 dark:text-gray-400">Denah Lokasi</span>
@@ -285,7 +297,7 @@ function cek_input($data)
                             </label>
                             <label class="block text-sm">
                                 <div id="map" style="width: 100%; height: 200px; margin-top:10px; margin-bottom:10px;"></div>
-                            </label>
+                            </label> -->
                             <label class="block text-sm">
                                 <span for="foto_nasabah" class="text-gray-700 dark:text-gray-400">Foto Nasabah</span>
                                 <input name="foto_nasabah" type="file" id="foto_nasabah" class="block w-full py-2 mt-1 text-sm font-medium text-dark bg-gray border border-transparent rounded-lg <?php echo ($error_foto_nasabah != "" ? "is-invalid" : ""); ?>" value="<?php echo $foto_nasabah; ?>" />
@@ -318,7 +330,7 @@ function cek_input($data)
             </div>
         </div>
 
-        <script>
+        <!-- <script>
             var map = L.map('map').setView([-0.9578390368896975, 100.40169742995735], 16);
 
             var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -361,7 +373,7 @@ function cek_input($data)
                 denahInput.value = lat + "," + lng;
 
             });
-        </script>
+        </script> -->
 
 
     </div>

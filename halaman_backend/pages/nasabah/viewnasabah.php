@@ -130,7 +130,7 @@ $nasabahDivalidasi = mysqli_query($koneksi, "SELECT * FROM tb_nasabah WHERE stat
                                         <td><img src="../assets/image/foto ktp nasabah/<?= $value['foto_ktp_nasabah'] ?>" alt="" width="100px" height="100px"></td>
                                         <td>
                                             <a href="?page=pages/nasabah/infodetailnasabah&id=<?php echo $value['id_nasabah']; ?>" class=" btn btn-primary">Info</a>
-                                            <a href="https://maps.google.it/maps?q=<?php echo $value['denah_lokasi']; ?>&output=embed" target="__blank" class=" btn btn-danger">Lokasi</a>
+                                            <a href="https://maps.google.it/maps?q=<?php echo $value['alamat']; ?>&output=embed" target="__blank" class=" btn btn-danger">Lokasi</a>
                                             <!-- <iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.it/maps?q=<?php echo $value['denah_lokasi']; ?>&output=embed"></iframe> -->
                                         </td>
                                     </tr>

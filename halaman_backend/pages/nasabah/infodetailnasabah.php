@@ -10,6 +10,8 @@ $nik_username = $data_nik_username['nik_username'];
 
 $detailDataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,djs.*,n.nik_username as nik_username, jp.*,jn.*,n.alamat as alamat_nasabah, djs.foto_tampak_depan as sertifikat_foto_tampak_depan, djs.foto_tampak_belakang as sertifikat_foto_tampak_belakang, djs.foto_tampak_samping  as sertifikat_foto_tampak_samping, djs.foto_tampak_atas as sertifikat_foto_tampak_atas, djn.foto_tampak_depan as kendaraan_foto_tampak_depan, djn.foto_tampak_belakang as kendaraan_foto_tampak_belakang, djn.foto_tampak_samping  as kendaraan_foto_tampak_samping FROM tb_nasabah n LEFT JOIN tb_pemberian_pembiayaan_nasabah pp ON n.nik_username=pp.nik_username LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=pp.id_jenis_pembiayaan LEFT JOIN tb_jaminan_nasabah jn ON jn.id_pemberian_pembiayaan_nasabah=pp.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_detail_jaminan_nasabah djn ON djn.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_detail_jaminan_sertifikat djs ON djs.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE n.nik_username='$nik_username' ORDER BY jn.id_jaminan_nasabah DESC");
 
+$dataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,djs.*,n.nik_username as nik_username, jp.*,jn.*,n.alamat as alamat_nasabah, djs.foto_tampak_depan as sertifikat_foto_tampak_depan, djs.foto_tampak_belakang as sertifikat_foto_tampak_belakang, djs.foto_tampak_samping  as sertifikat_foto_tampak_samping, djs.foto_tampak_atas as sertifikat_foto_tampak_atas, djn.foto_tampak_depan as kendaraan_foto_tampak_depan, djn.foto_tampak_belakang as kendaraan_foto_tampak_belakang, djn.foto_tampak_samping  as kendaraan_foto_tampak_samping FROM tb_nasabah n LEFT JOIN tb_pemberian_pembiayaan_nasabah pp ON n.nik_username=pp.nik_username LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=pp.id_jenis_pembiayaan LEFT JOIN tb_jaminan_nasabah jn ON jn.id_pemberian_pembiayaan_nasabah=pp.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_detail_jaminan_nasabah djn ON djn.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_detail_jaminan_sertifikat djs ON djs.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE n.nik_username='$nik_username' ORDER BY jn.id_jaminan_nasabah DESC LIMIT 1");
+
 
 // $detailDataSertifikatNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djs.*,n.nik_username as nik_username, jp.*,jn.*,n.alamat as alamat_nasabah FROM tb_nasabah n LEFT JOIN tb_pemberian_pembiayaan_nasabah pp ON n.nik_username=pp.nik_username LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=pp.id_jenis_pembiayaan LEFT JOIN tb_jaminan_nasabah jn ON jn.id_pemberian_pembiayaan_nasabah=pp.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_detail_jaminan_sertifikat djs ON djs.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE n.nik_username='$nik_username' ORDER BY jn.id_jaminan_nasabah DESC");
 
@@ -63,7 +65,7 @@ $detailDataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,djs.*,n.nik_u
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($detailDataNasabah as $key => $value) : ?>
+                                foreach ($dataNasabah as $key => $value) : ?>
 
                                     <tr style="border-bottom:2px;">
                                         <td colspan="3" style="text-align:left; font-weight:bold">DATA NASABAH : </td>
@@ -98,6 +100,19 @@ $detailDataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,djs.*,n.nik_u
                                         <td width="10%">:</td>
                                         <td><img src="../assets/image/foto ktp nasabah/<?= $value['foto_ktp_nasabah'] ?>" alt="" width="100px" height="100px"></td>
                                     </tr>
+
+                                <?php endforeach; ?>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr style="border-bottom: 2;color:black">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr style="border-bottom: 2;color:black">
+                                    </td>
+                                </tr>
+                                <?php foreach ($detailDataNasabah as $key => $value) : ?>
                                     <tr style="border-bottom:2px;">
                                         <td colspan="3" style="text-align:left; font-weight:bold">DATA PEMBERIAN PEMBIAYAAN NASABAH : </td>
                                     </tr>
@@ -216,8 +231,16 @@ $detailDataNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*,djn.*,djs.*,n.nik_u
 
                                     <?php endif; ?>
                                     <tr>
-                                        <td colspan="3">*********************************************************************************</td>
+                                        <td colspan="3">
+                                            <hr style="border-bottom: 2;color:black">
+                                        </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <hr style="border-bottom: 2;color:black">
+                                        </td>
+                                    </tr>
+
 
                                 <?php endforeach; ?>
                             </tbody>

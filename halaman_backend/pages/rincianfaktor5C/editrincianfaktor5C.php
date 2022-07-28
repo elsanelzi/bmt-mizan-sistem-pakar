@@ -1,5 +1,7 @@
  <?php $id = $_GET['id'];
     $rincianfaktor5C = mysqli_query($koneksi, "SELECT * FROM tb_rincian_5c rf LEFT JOIN tb_faktor_5c f ON rf.id_faktor_5c=f.id_faktor_5c WHERE id_rincian_5c = '$id'")->fetch_array();
+    $id_faktor_5c = $rincianfaktor5C['id_faktor_5c'];
+
     ?>
 
  <!-- Content Wrapper. Contains page content -->
@@ -63,10 +65,10 @@
                                     if ($edit) {
                                         $_SESSION['info'] = 'Berhasil Diubah';
                                         echo "<script>
-                                                        window.location.href = '?page=pages/rincianfaktor5C/addrincianfaktor5C'</script>";
+                                                        window.location.href = '?page=pages/rincianfaktor5C/addrincianfaktor5C&id=$id_faktor_5c'</script>";
                                     } else {
                                         $_SESSION['info'] = 'Gagal Diubah';
-                                        echo "<script>window.location.href = '?page=pages/rincianfaktor5C/addrincianfaktor5C'
+                                        echo "<script>window.location.href = '?page=pages/rincianfaktor5C/addrincianfaktor5C&id=$id_faktor_5c'
                                                         </script>";
                                     }
                                 }

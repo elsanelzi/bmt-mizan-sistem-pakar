@@ -15,7 +15,10 @@
                      <ol class="breadcrumb float-sm-right">
                          <li class="breadcrumb-item"><a href="?page=pages/faktor5C/viewfaktor5C">Data Faktor 5C</a></li>
                          <li class="breadcrumb-item active">Edit Data</li>
-                         <li class="breadcrumb-item"><?= $faktor5C['id_faktor_5C']; ?></li>
+                         <li class="breadcrumb-item"><?=
+                                                        $faktor5C['id_faktor_5c'];
+
+                                                        ?></li>
                      </ol>
                  </div>
              </div>

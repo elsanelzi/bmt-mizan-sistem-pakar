@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Jul 2022 pada 16.15
+-- Waktu pembuatan: 27 Jul 2022 pada 19.37
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -210,6 +210,7 @@ CREATE TABLE `tb_nasabah` (
   `nama_lengkap` varchar(100) NOT NULL,
   `password` varchar(124) NOT NULL,
   `alamat` text NOT NULL,
+  `denah_lokasi` varchar(255) NOT NULL,
   `no_telepon` varchar(15) NOT NULL,
   `foto_nasabah` varchar(124) NOT NULL,
   `foto_ktp_nasabah` varchar(124) NOT NULL,
@@ -297,16 +298,16 @@ INSERT INTO `tb_rincian_5c` (`id_rincian_5c`, `id_faktor_5c`, `keterangan`, `bob
 (24, 2, 'c', 15),
 (25, 2, 'd', 25),
 (26, 2, 'e', 25),
-(27, 3, 'Puasa Bulan Ramadhan', 10),
-(28, 3, 'Zakat Fitrah', 15),
+(27, 3, 'ib', 10),
+(28, 3, 'ic', 15),
+(29, 3, 'id', 10),
 (30, 6, 'r1', 10),
-(31, 6, 'membantu sesama', 30),
+(31, 6, 'r2', 30),
 (32, 6, 'r3', 40),
 (33, 6, 'r4', 20),
 (34, 7, 'ka2', 15),
-(35, 7, 'Membayar tidak terlambat', 25),
-(36, 7, 'Ketepatan Angsuran', 15),
-(37, 3, 'Ibadah Sunah', 10);
+(35, 7, 'ka3', 25),
+(36, 7, 'Ketepatan Angsuran', 15);
 
 -- --------------------------------------------------------
 
@@ -514,7 +515,7 @@ ALTER TABLE `tb_rentang_pendapatan`
 -- AUTO_INCREMENT untuk tabel `tb_rincian_5c`
 --
 ALTER TABLE `tb_rincian_5c`
-  MODIFY `id_rincian_5c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_rincian_5c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`
