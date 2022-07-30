@@ -102,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_foto_nasabah = $_FILES['foto_nasabah']['name'];
     $lokasi_foto_nasabah = $_FILES['foto_nasabah']['tmp_name'];
     $size_foto_nasabah = $_FILES['foto_nasabah']['size'];
-    $ekstensi_foto_nasabah = strtolower(end(explode('.', $_FILES['foto_nasabah']['name'])));
-    // var_dump($nama_foto_nasabah, $ekstensi_foto_nasabah);
-    // die;
+    // $ekstensi_foto_nasabah = strtolower(end(explode('.', $_FILES['foto_nasabah']['name'])));
+
+    $ekstensi_foto_nasabah = pathinfo($_FILES['foto_nasabah']['name'], PATHINFO_EXTENSION);
     $ekstensi_ok_foto_nasabah = in_array($ekstensi_foto_nasabah, $ekstensi_file);
 
 
@@ -124,7 +124,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['name'];
     $lokasi_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['tmp_name'];
     $size_foto_ktp_nasabah = $_FILES['foto_ktp_nasabah']['size'];
-    $ekstensi_foto_ktp_nasabah = end(explode('.', $nama_foto_ktp_nasabah));
+    // $ekstensi_foto_ktp_nasabah = end(explode('.', $nama_foto_ktp_nasabah));
+    // $ekstensi_ok_foto_ktp_nasabah = in_array($ekstensi_foto_ktp_nasabah, $ekstensi_file);
+    $ekstensi_foto_ktp_nasabah = pathinfo($_FILES['foto_ktp_nasabah']['name'], PATHINFO_EXTENSION);
     $ekstensi_ok_foto_ktp_nasabah = in_array($ekstensi_foto_ktp_nasabah, $ekstensi_file);
 
     if (empty($nama_foto_ktp_nasabah)) {
@@ -166,7 +168,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Query untuk menyimpan data ke table nasabah
             $simpanNasabah = mysqli_query($koneksi, "INSERT INTO tb_nasabah (`nik_username`,`nama_lengkap`, `password`, `alamat`,`no_telepon`, `foto_nasabah`,`foto_ktp_nasabah`,`status_validasi` ) VALUES ('$nik_username','$nama_lengkap', '$password','$alamat','$no_telepon','$foto_nasabah', '$foto_ktp_nasabah','$status_validasi')");
-
 
             // Move foto nasabah
             $pindah = move_uploaded_file($lokasi_foto_nasabah, '../../assets/image/foto nasabah/' . $foto_nasabah);
