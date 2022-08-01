@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if (strlen($_POST['no_telepon']) < 12) {
         $error_no_telepon = "Inputan No. Telepon minimal 12 karakter";
     } else if (strlen($_POST['no_telepon']) > 15) {
-        $error_no_telepon = "Inputan No. Telepon maksimal 12 karakter";
+        $error_no_telepon = "Inputan No. Telepon maksimal 15 karakter";
     } else {
         $no_telepon = cek_input($_POST['no_telepon']);
         $no_telepon = mysqli_escape_string($koneksi, $no_telepon);
@@ -273,6 +273,7 @@ function cek_input($data)
                             <label class="block text-sm">
                                 <span for="no_telepon" class="text-gray-700 dark:text-gray-400">No. Telepon</span>
                                 <input name="no_telepon" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input <?php echo ($error_no_telepon != "" ? "is-invalid" : ""); ?>" id="no_telepon" placeholder="Masukan No. Telepon" value="<?php echo $no_telepon; ?>" />
+                                <span style="color:blue; margin-bottom:5px;">Ex: (6283176543265)</span>
                                 <span class="text-danger" style="color:red; margin-bottom:5px;"><?php echo $error_no_telepon; ?></span>
                             </label>
                             <label class="block text-sm">
@@ -323,7 +324,7 @@ function cek_input($data)
 
                         <p class="mt-4">
                             <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline" href="../login/login.php">
-                                Belum Punya Akun? Masuk
+                                Sudah Punya Akun? Masuk
                             </a>
                         </p>
                     </div>

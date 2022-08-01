@@ -21,10 +21,14 @@
              //  Sertifikat
              if ($("#jenis_jaminan option:selected").val() == 'Sertifikat') {
                  $('#sertifikat').prop('hidden', false);
+                 $('#IMB').prop('hidden', false);
+                 $('#PBB').prop('hidden', false);
                  // alert('Yeay, Lunas');
              } else {
                  // alert('Yahhh, Masuh Belum Lunas');
                  $('#sertifikat').prop('hidden', true);
+                 $('#IMB').prop('hidden', true);
+                 $('#PBB').prop('hidden', true);
              }
 
          });
@@ -73,6 +77,14 @@
                      <div class="form-group" id="sertifikat" hidden>
                          <label for="foto_sertifikat">Foto Sertifikat</label>
                          <input type="file" name="foto_sertifikat" class="form-control" id="foto_sertifikat">
+                     </div>
+                     <div class="form-group" id="IMB" hidden>
+                         <label for="foto_IMB">Foto IMB</label>
+                         <input type="file" name="foto_IMB" class="form-control" id="foto_IMB">
+                     </div>
+                     <div class="form-group" id="PBB" hidden>
+                         <label for="foto_PBB">Foto PBB</label>
+                         <input type="file" name="foto_PBB" class="form-control" id="foto_PBB">
                      </div>
                      <div class="form-group">
                          <label for="foto_surat_izin_usaha">Foto Surat Izin Usaha</label>
@@ -159,10 +171,12 @@
                             }
                             // $foto_STNK = time() . '_' . $nama_foto_STNK;
                             $foto_sertifikat = "";
+                            $foto_IMB = "";
+                            $foto_PBB = "";
 
 
                             //// Query menyimpan data ke dalam tabel Jaminan Nasabah
-                            $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`jenis_jaminan`,`foto_KK`, `foto_BPKP`,`foto_sertifikat`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$jenis_jaminan','$foto_KK', '$foto_BPKP','$foto_sertifikat', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik', '$status')");
+                            $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`jenis_jaminan`,`foto_KK`, `foto_BPKP`,`foto_sertifikat`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`foto_IMB`,`foto_PBB`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$jenis_jaminan','$foto_KK', '$foto_BPKP','$foto_sertifikat', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik','$foto_IMB', '$foto_PBB', '$status')");
 
                             $pindah = move_uploaded_file($lokasi_foto_BPKP, 'assets/image/foto jaminan nasabah/' . $foto_BPKP);
                             $pindah = move_uploaded_file($lokasi_foto_STNK, 'assets/image/foto jaminan nasabah/' . $foto_STNK);
@@ -187,13 +201,37 @@
                                     break;
                             }
                             // $foto_sertifikat = time() . '_' . $nama_foto_sertifikat;
+
+                            $nama_foto_IMB = $_FILES['foto_IMB']['name'];
+                            $lokasi_foto_IMB = $_FILES['foto_IMB']['tmp_name'];
+                            $foto_IMB = uniqid(rand(), true) . '_' . $nama_foto_IMB;
+                            while (true) {
+                                $foto_IMB = uniqid(rand(), true) . '_' . $nama_foto_IMB;
+
+                                if (!file_exists(sys_get_temp_dir() . $foto_IMB))
+                                    break;
+                            }
+                            // $foto_IMB = time() . '_' . $nama_foto_IMB;
+
+                            $nama_foto_PBB = $_FILES['foto_PBB']['name'];
+                            $lokasi_foto_PBB = $_FILES['foto_PBB']['tmp_name'];
+                            $foto_PBB = uniqid(rand(), true) . '_' . $nama_foto_PBB;
+                            while (true) {
+                                $foto_PBB = uniqid(rand(), true) . '_' . $nama_foto_PBB;
+
+                                if (!file_exists(sys_get_temp_dir() . $foto_PBB))
+                                    break;
+                            }
+                            // $foto_PBB = time() . '_' . $nama_foto_PBB;
                             $foto_BPKP = "";
                             $foto_STNK = "";
 
                             //// Query menyimpan data ke dalam tabel Jaminan Nasabah
-                            $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`jenis_jaminan`,`foto_KK`, `foto_BPKP`,`foto_sertifikat`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$jenis_jaminan','$foto_KK', '$foto_BPKP','$foto_sertifikat', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik', '$status')");
+                            $simpan = mysqli_query($koneksi, "INSERT INTO tb_jaminan_nasabah (`id_pemberian_pembiayaan_nasabah`,`jenis_jaminan`,`foto_KK`, `foto_BPKP`,`foto_sertifikat`,`foto_surat_izin_usaha`, `foto_STNK`,`foto_rekening_listrik`,`foto_IMB`,`foto_PBB`,`status` ) VALUES ('$id_pemberian_pembiayaan_nasabah','$jenis_jaminan','$foto_KK', '$foto_BPKP','$foto_sertifikat', '$foto_surat_izin_usaha', '$foto_STNK', '$foto_rekening_listrik','$foto_IMB', '$foto_PBB', '$status')");
 
                             $pindah = move_uploaded_file($lokasi_foto_sertifikat, 'assets/image/foto jaminan sertifikat/' . $foto_sertifikat);
+                            $pindah = move_uploaded_file($lokasi_foto_IMB, 'assets/image/foto jaminan sertifikat/' . $foto_IMB);
+                            $pindah = move_uploaded_file($lokasi_foto_PBB, 'assets/image/foto jaminan sertifikat/' . $foto_PBB);
 
                             if ($simpan) {
                                 $_SESSION['info'] = 'Berhasil Disimpan';

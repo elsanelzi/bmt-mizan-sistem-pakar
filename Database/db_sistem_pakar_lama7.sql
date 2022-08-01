@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Agu 2022 pada 22.19
+-- Waktu pembuatan: 28 Jul 2022 pada 16.15
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -55,13 +55,6 @@ CREATE TABLE `tb_analisa_pendapatan` (
   `pendapatan_bersih_per_bulan` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data untuk tabel `tb_analisa_pendapatan`
---
-
-INSERT INTO `tb_analisa_pendapatan` (`id_analisa_pendapatan`, `id_pemberian_pembiayaan_nasabah`, `jumlah_tabungan`, `jumlah_hutang`, `penjualan`, `biaya_tenaga_kerja`, `biaya_bahan_baku`, `biaya_overhead`, `harga_pokok_produksi`, `pendapatan_jualan`, `biaya_umum_dan_adm`, `biaya_pemasaran`, `pendapatan_per_bulan`, `pendapatan_lain_lain`, `total_pendapatan_per_bulan`, `biaya_makan`, `biaya_transportasi`, `biaya_sewa`, `biaya_air`, `biaya_listrik`, `biaya_telepon`, `biaya_pendidikan`, `biaya_lain_lain`, `total_biaya_hidup_per_bulan`, `pendapatan_bersih_per_bulan`) VALUES
-(1, 1, 40000000, 2300000, 5300000, 2000, 1000, 9000, 15000, 5235000, 7000, 31000, 66000, 7000000, 12301000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 9965000);
-
 -- --------------------------------------------------------
 
 --
@@ -74,13 +67,6 @@ CREATE TABLE `tb_bukti_survei` (
   `bukti_lampiran_survei` varchar(255) NOT NULL,
   `status_validasi_hasil` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_bukti_survei`
---
-
-INSERT INTO `tb_bukti_survei` (`id_bukti_survei`, `id_hasil`, `bukti_lampiran_survei`, `status_validasi_hasil`) VALUES
-(1, 1, '1659370510_bukti2.png', 1);
 
 -- --------------------------------------------------------
 
@@ -109,16 +95,9 @@ CREATE TABLE `tb_detail_jaminan_sertifikat` (
   `id_jaminan_nasabah` int(11) NOT NULL,
   `foto_tampak_depan` varchar(255) NOT NULL,
   `foto_tampak_belakang` varchar(255) NOT NULL,
-  `foto_tampak_kiri` varchar(255) NOT NULL,
-  `foto_tampak_kanan` varchar(255) NOT NULL
+  `foto_tampak_samping` varchar(255) NOT NULL,
+  `foto_tampak_atas` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_detail_jaminan_sertifikat`
---
-
-INSERT INTO `tb_detail_jaminan_sertifikat` (`id_detail_sertifikat`, `id_jaminan_nasabah`, `foto_tampak_depan`, `foto_tampak_belakang`, `foto_tampak_kiri`, `foto_tampak_kanan`) VALUES
-(1, 1, '72229872462e7f97b1ced66.72509959_bukti4.jpg', '164887484462e7f97b1d2c23.14240608_bukti4.jpg', '84607749862e7f97b1d5bc6.31214947_bb2.png', '143004322862e7f97b1d8297.05959727_bb2.png');
 
 -- --------------------------------------------------------
 
@@ -181,13 +160,6 @@ CREATE TABLE `tb_hasil` (
   `persentase_nilai` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data untuk tabel `tb_hasil`
---
-
-INSERT INTO `tb_hasil` (`id_hasil`, `id_jaminan_nasabah`, `nik_username`, `tanggal`, `nilai_nasabah`, `persentase_nilai`) VALUES
-(1, 1, '1234567891012341', '2022-08-01', 'Baik', 66);
-
 -- --------------------------------------------------------
 
 --
@@ -204,17 +176,8 @@ CREATE TABLE `tb_jaminan_nasabah` (
   `foto_surat_izin_usaha` varchar(124) NOT NULL,
   `foto_STNK` varchar(124) NOT NULL,
   `foto_rekening_listrik` varchar(124) NOT NULL,
-  `foto_IMB` varchar(255) NOT NULL,
-  `foto_PBB` varchar(255) NOT NULL,
   `status` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_jaminan_nasabah`
---
-
-INSERT INTO `tb_jaminan_nasabah` (`id_jaminan_nasabah`, `id_pemberian_pembiayaan_nasabah`, `jenis_jaminan`, `foto_KK`, `foto_BPKP`, `foto_sertifikat`, `foto_surat_izin_usaha`, `foto_STNK`, `foto_rekening_listrik`, `foto_IMB`, `foto_PBB`, `status`) VALUES
-(1, 1, 'Sertifikat', '8322014662e7f92c69d905.15049986_b4.jpg', '', '53587836962e7f92c6a7a31.51535568_b4.jpg', '90582790562e7f92c6a1761.33558000_b4.jpg', '', '135451660762e7f92c6a4ce2.83237750_b4.jpg', '80273964262e7f92c6a8589.24618467_b4.jpg', '34130756562e7f92c6a8f37.77566015_b4.jpg', 'Diterima');
 
 -- --------------------------------------------------------
 
@@ -233,8 +196,7 @@ CREATE TABLE `tb_jenis_pembiayaan` (
 --
 
 INSERT INTO `tb_jenis_pembiayaan` (`id_jenis_pembiayaan`, `jenis_pembiayaan`, `keterangan`) VALUES
-(2, 'BBA (Bai\' Bitsaman Ajil)', 'Al-bai\' bitsaman ajil(BBA) diartikan sebagai pembelian barang dengan pembayaran cicilan atau angsuran. Prinsipnya merupakan pengembangan dari prinsip murabahah, dimana pihak perbankan membiayai pembelian barang yang diperlukan nasabah dengan sistem pembayaran angsuran'),
-(6, 'Mudharabah', 'mudharabah jjj');
+(2, 'BBA (Bai\' Bitsaman Ajil)', 'Al-bai\' bitsaman ajil(BBA) diartikan sebagai pembelian barang dengan pembayaran cicilan atau angsuran. Prinsipnya merupakan pengembangan dari prinsip murabahah, dimana pihak perbankan membiayai pembelian barang yang diperlukan nasabah dengan sistem pembayaran angsuran');
 
 -- --------------------------------------------------------
 
@@ -254,13 +216,6 @@ CREATE TABLE `tb_nasabah` (
   `status_validasi` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data untuk tabel `tb_nasabah`
---
-
-INSERT INTO `tb_nasabah` (`id_nasabah`, `nik_username`, `nama_lengkap`, `password`, `alamat`, `no_telepon`, `foto_nasabah`, `foto_ktp_nasabah`, `status_validasi`) VALUES
-(1, '1234567891012341', 'Juni Safitri', 'juni', 'Padang', '6283161953796', '73696435062e7f300242d62.75122001_profil1.png', '35508282262e7f300244d57.68638055_bukti4.jpg', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -275,32 +230,6 @@ CREATE TABLE `tb_pemberian_pembiayaan_nasabah` (
   `jangka_waktu` int(11) NOT NULL,
   `tanggal_peminjaman` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_pemberian_pembiayaan_nasabah`
---
-
-INSERT INTO `tb_pemberian_pembiayaan_nasabah` (`id_pemberian_pembiayaan_nasabah`, `id_jenis_pembiayaan`, `nik_username`, `nominal_pinjaman`, `jangka_waktu`, `tanggal_peminjaman`) VALUES
-(1, 2, '1234567891012341', 120000000, 18, '2022-08-01');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_pembiayaan_diterima`
---
-
-CREATE TABLE `tb_pembiayaan_diterima` (
-  `id_pembiayaan_diterima` int(11) NOT NULL,
-  `id_pemberian_pembiayaan_nasabah` int(11) NOT NULL,
-  `biaya_diterima` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_pembiayaan_diterima`
---
-
-INSERT INTO `tb_pembiayaan_diterima` (`id_pembiayaan_diterima`, `id_pemberian_pembiayaan_nasabah`, `biaya_diterima`) VALUES
-(1, 1, 52000000);
 
 -- --------------------------------------------------------
 
@@ -400,8 +329,7 @@ INSERT INTO `tb_user` (`id_user`, `nik_username`, `password`, `status`) VALUES
 (1, 'admin', 'admin', 'Admin'),
 (3, 'petugas', 'petugas', 'Petugas Lapangan'),
 (4, 'teller', 'teller', 'Teller'),
-(5, 'manajer', 'manajer', 'Manajer'),
-(6, '1234567891012341', 'juni', 'nasabah');
+(5, 'manajer', 'manajer', 'Manajer');
 
 --
 -- Indexes for dumped tables
@@ -476,12 +404,6 @@ ALTER TABLE `tb_pemberian_pembiayaan_nasabah`
   ADD PRIMARY KEY (`id_pemberian_pembiayaan_nasabah`);
 
 --
--- Indeks untuk tabel `tb_pembiayaan_diterima`
---
-ALTER TABLE `tb_pembiayaan_diterima`
-  ADD PRIMARY KEY (`id_pembiayaan_diterima`);
-
---
 -- Indeks untuk tabel `tb_rasio_angsuran`
 --
 ALTER TABLE `tb_rasio_angsuran`
@@ -514,13 +436,13 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT untuk tabel `tb_analisa_pendapatan`
 --
 ALTER TABLE `tb_analisa_pendapatan`
-  MODIFY `id_analisa_pendapatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_analisa_pendapatan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_bukti_survei`
 --
 ALTER TABLE `tb_bukti_survei`
-  MODIFY `id_bukti_survei` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_bukti_survei` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_detail_jaminan_nasabah`
@@ -532,7 +454,7 @@ ALTER TABLE `tb_detail_jaminan_nasabah`
 -- AUTO_INCREMENT untuk tabel `tb_detail_jaminan_sertifikat`
 --
 ALTER TABLE `tb_detail_jaminan_sertifikat`
-  MODIFY `id_detail_sertifikat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_detail_sertifikat` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_detail_user`
@@ -550,37 +472,31 @@ ALTER TABLE `tb_faktor_5c`
 -- AUTO_INCREMENT untuk tabel `tb_hasil`
 --
 ALTER TABLE `tb_hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_jaminan_nasabah`
 --
 ALTER TABLE `tb_jaminan_nasabah`
-  MODIFY `id_jaminan_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_jaminan_nasabah` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_jenis_pembiayaan`
 --
 ALTER TABLE `tb_jenis_pembiayaan`
-  MODIFY `id_jenis_pembiayaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_jenis_pembiayaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_nasabah`
 --
 ALTER TABLE `tb_nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pemberian_pembiayaan_nasabah`
 --
 ALTER TABLE `tb_pemberian_pembiayaan_nasabah`
-  MODIFY `id_pemberian_pembiayaan_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT untuk tabel `tb_pembiayaan_diterima`
---
-ALTER TABLE `tb_pembiayaan_diterima`
-  MODIFY `id_pembiayaan_diterima` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pemberian_pembiayaan_nasabah` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_rasio_angsuran`
@@ -604,7 +520,7 @@ ALTER TABLE `tb_rincian_5c`
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

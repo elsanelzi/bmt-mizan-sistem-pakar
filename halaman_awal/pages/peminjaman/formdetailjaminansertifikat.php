@@ -36,12 +36,12 @@
                          <input type="file" name="foto_tampak_belakang" class="form-control" id="foto_tampak_belakang" required>
                      </div>
                      <div class="form-group">
-                         <label for="foto_tampak_samping">Foto Tampak Samping</label>
-                         <input type="file" name="foto_tampak_samping" class="form-control" id="foto_tampak_samping" required>
+                         <label for="foto_tampak_kiri">Foto Tampak Kiri</label>
+                         <input type="file" name="foto_tampak_kiri" class="form-control" id="foto_tampak_kiri" required>
                      </div>
                      <div class="form-group">
-                         <label for="foto_tampak_atas">Foto Tampak Atas</label>
-                         <input type="file" name="foto_tampak_atas" class="form-control" id="foto_tampak_atas" required>
+                         <label for="foto_tampak_kanan">Foto Tampak Kanan</label>
+                         <input type="file" name="foto_tampak_kanan" class="form-control" id="foto_tampak_kanan" required>
                      </div>
 
                      <button type="submit" name="save">Kirim</button>
@@ -75,32 +75,32 @@
                         // $foto_tampak_belakang = time() . '_' . $nama_foto_tampak_belakang;
                         $pindah = move_uploaded_file($lokasi_foto_tampak_belakang, 'assets/image/foto detail jaminan sertifikat nasabah/' . $foto_tampak_belakang);
 
-                        $nama_foto_tampak_samping = $_FILES['foto_tampak_samping']['name'];
-                        $lokasi_foto_tampak_samping = $_FILES['foto_tampak_samping']['tmp_name'];
-                        $foto_tampak_samping = uniqid(rand(), true) . '_' . $nama_foto_tampak_samping;
+                        $nama_foto_tampak_kiri = $_FILES['foto_tampak_kiri']['name'];
+                        $lokasi_foto_tampak_kiri = $_FILES['foto_tampak_kiri']['tmp_name'];
+                        $foto_tampak_kiri = uniqid(rand(), true) . '_' . $nama_foto_tampak_kiri;
                         while (true) {
-                            $foto_tampak_samping = uniqid(rand(), true) . '_' . $nama_foto_tampak_samping;
+                            $foto_tampak_kiri = uniqid(rand(), true) . '_' . $nama_foto_tampak_kiri;
 
-                            if (!file_exists(sys_get_temp_dir() . $foto_tampak_samping))
+                            if (!file_exists(sys_get_temp_dir() . $foto_tampak_kiri))
                                 break;
                         }
-                        // $foto_tampak_samping = time() . '_' . $nama_foto_tampak_samping;
-                        $pindah = move_uploaded_file($lokasi_foto_tampak_samping, 'assets/image/foto detail jaminan sertifikat nasabah/' . $foto_tampak_samping);
+                        // $foto_tampak_kiri = time() . '_' . $nama_foto_tampak_kiri;
+                        $pindah = move_uploaded_file($lokasi_foto_tampak_kiri, 'assets/image/foto detail jaminan sertifikat nasabah/' . $foto_tampak_kiri);
 
-                        $nama_foto_tampak_atas = $_FILES['foto_tampak_atas']['name'];
-                        $lokasi_foto_tampak_atas = $_FILES['foto_tampak_atas']['tmp_name'];
-                        $foto_tampak_atas = uniqid(rand(), true) . '_' . $nama_foto_tampak_atas;
+                        $nama_foto_tampak_kanan = $_FILES['foto_tampak_kanan']['name'];
+                        $lokasi_foto_tampak_kanan = $_FILES['foto_tampak_kanan']['tmp_name'];
+                        $foto_tampak_kanan = uniqid(rand(), true) . '_' . $nama_foto_tampak_kanan;
                         while (true) {
-                            $foto_tampak_atas = uniqid(rand(), true) . '_' . $nama_foto_tampak_atas;
+                            $foto_tampak_kanan = uniqid(rand(), true) . '_' . $nama_foto_tampak_kanan;
 
-                            if (!file_exists(sys_get_temp_dir() . $foto_tampak_atas))
+                            if (!file_exists(sys_get_temp_dir() . $foto_tampak_kanan))
                                 break;
                         }
-                        // $foto_tampak_atas = time() . '_' . $nama_foto_tampak_atas;
-                        $pindah = move_uploaded_file($lokasi_foto_tampak_atas, 'assets/image/foto detail jaminan sertifikat nasabah/' . $foto_tampak_atas);
+                        // $foto_tampak_kanan = time() . '_' . $nama_foto_tampak_kanan;
+                        $pindah = move_uploaded_file($lokasi_foto_tampak_kanan, 'assets/image/foto detail jaminan sertifikat nasabah/' . $foto_tampak_kanan);
 
                         //// Query menyimpan data ke dalam tabel Jaminan Nasabah
-                        $simpan = mysqli_query($koneksi, "INSERT INTO tb_detail_jaminan_sertifikat (`id_jaminan_nasabah`,`foto_tampak_depan`, `foto_tampak_belakang`,`foto_tampak_samping`, `foto_tampak_atas`) VALUES ('$id_jaminan_nasabah','$foto_tampak_depan', '$foto_tampak_belakang', '$foto_tampak_samping', '$foto_tampak_atas')");
+                        $simpan = mysqli_query($koneksi, "INSERT INTO tb_detail_jaminan_sertifikat (`id_jaminan_nasabah`,`foto_tampak_depan`, `foto_tampak_belakang`,`foto_tampak_kiri`, `foto_tampak_kanan`) VALUES ('$id_jaminan_nasabah','$foto_tampak_depan', '$foto_tampak_belakang', '$foto_tampak_kiri', '$foto_tampak_kanan')");
 
                         if ($simpan) {
                             $_SESSION['info'] = 'Berhasil Disimpan';

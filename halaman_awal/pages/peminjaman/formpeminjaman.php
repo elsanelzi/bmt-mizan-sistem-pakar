@@ -47,7 +47,7 @@
                          </select>
                      </div>
                      <div class="form-group">
-                         <label for="tanggal_peminjaman">Tanggal Peminjaman</label>
+                         <label for="tanggal_peminjaman">Tanggal Pengajuan Pembiayaan</label>
                          <input type="date" name="tanggal_peminjaman" class="form-control" id="tanggal_peminjaman" value="<?= date('Y-m-d') ?>" required readonly>
                      </div>
                      <button type="submit" name="save">Kirim</button>

@@ -17,7 +17,7 @@ if (!isset($_SESSION['status'])) {
 
 $id = $_GET['id'];
 // Query menampilkan data hasil pembiayaan nasabah
-$dataHasilPembiayaan = mysqli_query($koneksi, "SELECT *, n.nik_username as nik_username FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_pemberian_pembiayaan_nasabah ppn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=ppn.id_jenis_pembiayaan LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE ppn.id_pemberian_pembiayaan_nasabah=$id AND jn.status='Diterima' || status='Ditolak' ORDER BY id_hasil ASC");
+$dataHasilPembiayaan = mysqli_query($koneksi, "SELECT *, n.nik_username as nik_username FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_pemberian_pembiayaan_nasabah ppn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jenis_pembiayaan jp ON jp.id_jenis_pembiayaan=ppn.id_jenis_pembiayaan LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE ppn.id_pemberian_pembiayaan_nasabah=$id AND jn.status='Diterima' || status='Ditolak' ORDER BY id_hasil ASC");
 
 $dataRasioAngsuran = mysqli_query($koneksi, "SELECT * FROM tb_rasio_angsuran")->fetch_array();
 $dataRentangPendapatan = mysqli_query($koneksi, "SELECT * FROM tb_rentang_pendapatan")->fetch_array();
@@ -157,17 +157,18 @@ $dataRentangPendapatan = mysqli_query($koneksi, "SELECT * FROM tb_rentang_pendap
                             <tr class="fw-bold text-success">
                                 <td width="20%" style="font-weight: bold;">Penerimaan Biaya</td>
                                 <td width="3%" style="text-align: right;">:</td>
-                                <?php if ($value['status'] == 'Diterima') : ?>
+                                <!-- <?php if ($value['status'] == 'Diterima') : ?>
                                     <?php
-                                    // Query menampilkan data rasio angsuran
-                                    $dataRasioAngsuran = mysqli_query($koneksi, "SELECT * FROM tb_rasio_angsuran")->fetch_array();
-                                    $besar_rasio_angsuran = $dataRasioAngsuran['besar_rasio_angsuran'];
-                                    $biaya_diterima = ($besar_rasio_angsuran * $value['pendapatan_bersih_per_bulan'] * $value['jangka_waktu']) / 100;
+                                            // Query menampilkan data rasio angsuran
+                                            $dataRasioAngsuran = mysqli_query($koneksi, "SELECT * FROM tb_rasio_angsuran")->fetch_array();
+                                            $besar_rasio_angsuran = $dataRasioAngsuran['besar_rasio_angsuran'];
+                                            $biaya_diterima = ($besar_rasio_angsuran * $value['pendapatan_bersih_per_bulan'] * $value['jangka_waktu']) / 100;
                                     ?>
                                     <td class="text-success" style="font-weight: bold; color:blueviolet">Rp. <?= number_format($biaya_diterima, 0, '.', '.'); ?></td>
                                 <?php elseif ($value['status'] == 'Ditolak') : ?>
                                     <td class="text-danger" style="font-weight: bold; color:blueviolet">Rp. <?= number_format(0, 0, '.', '.'); ?></td>
-                                <?php endif; ?>
+                                <?php endif; ?> -->
+                                <td><strong>Rp. <?= number_format($value['biaya_diterima'], 0, '.', '.'); ?></strong></td>
                             </tr>
 
                             <!-- <tr style="border-bottom:2px;">

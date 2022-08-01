@@ -235,7 +235,7 @@
         var total_biaya_hidup_per_bulan = Number(biaya_makan) + Number(biaya_transportasi) + Number(biaya_sewa) + Number(biaya_air) + Number(biaya_listrik) + Number(biaya_telepon) + Number(biaya_pendidikan) + Number(biaya_lain_lain);
 
         //  Perhitungan pendapatan bersih
-        var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan);
+        var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan) - Number(jumlah_hutang);
 
         document.getElementById('jumlah_tabungan').value = jumlah_tabungan;
         document.getElementById('jumlah_hutang').value = jumlah_hutang;
@@ -289,6 +289,7 @@ if (isset($_POST['simpan'])) {
         $id_pemberian_pembiayaan_nasabah = $data['id_pemberian_pembiayaan_nasabah'];
         $nominal_pinjaman = $data['nominal_pinjaman'];
         $pendapatan_bersih = $data['pendapatan_bersih_per_bulan'];
+        $jangka_waktu = $data['jangka_waktu'];
         $nilai_nasabah = $data['nilai_nasabah'];
 
         // var_dump($nominal_pinjaman, $pendapatan_bersih, $nilai_nasabah);
@@ -316,14 +317,37 @@ if (isset($_POST['simpan'])) {
 
         // // Edit data tabel jaminan nasabah
         $edit = $koneksi->query("UPDATE tb_jaminan_nasabah SET status= '$status' WHERE id_pemberian_pembiayaan_nasabah='$id_pemberian_pembiayaan_nasabah'");
+
         if ($edit) {
-            $_SESSION['info'] = 'Berhasil Disimpan';
-            echo "<script>
+            if ($status == 'Diterima') : ?>
+                <?php
+                // Query menampilkan data rasio angsuran
+                $dataRasioAngsuran = mysqli_query($koneksi, "SELECT * FROM tb_rasio_angsuran")->fetch_array();
+                $besar_rasio_angsuran = $dataRasioAngsuran['besar_rasio_angsuran'];
+                $biaya_diterima = ($besar_rasio_angsuran * $pendapatan_bersih * $jangka_waktu) / 100;
+
+                $biaya_diterima_nasabah = $biaya_diterima;
+                ?>
+
+                <td class="text-success" style="font-weight: bold; color:blueviolet">Rp. <?= number_format($biaya_diterima, 0, '.', '.'); ?></td>
+            <?php elseif ($status == 'Ditolak') : ?>
+                <?php $biaya_diterima_nasabah = 0; ?>
+                <td class="text-danger" style="font-weight: bold; color:blueviolet">Rp. <?= number_format(0, 0, '.', '.'); ?></td>
+            <?php endif; ?>
+<?php
+
+
+            $simpanBiayaDiterima = mysqli_query($koneksi, "INSERT INTO tb_pembiayaan_diterima (`id_pemberian_pembiayaan_nasabah`,`biaya_diterima`) VALUES ('$id_pemberian_pembiayaan_nasabah','$biaya_diterima_nasabah')");
+
+            if ($simpanBiayaDiterima) {
+                $_SESSION['info'] = 'Berhasil Disimpan';
+                echo "<script>
             window.location.href = '?page=pages/biaya/viewanalisapendapatan'</script>";
-        } else {
-            $_SESSION['info'] = 'Gagal Disimpan';
-            echo "<script>window.location.href = '?page=pages/biaya/viewanalisapendapatan'
+            } else {
+                $_SESSION['info'] = 'Gagal Disimpan';
+                echo "<script>window.location.href = '?page=pages/biaya/viewanalisapendapatan'
               </script>";
+            }
         }
     }
 }

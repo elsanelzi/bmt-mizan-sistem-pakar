@@ -60,7 +60,7 @@ if (isset($_SESSION['status'])) {
                         </form>
                         <p class="mt-1">
                             <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline" href="../register/register.php">
-                                Buat Akun
+                                Belum Punya Akun? Buat Akun
                             </a>
                         </p>
                     </div>

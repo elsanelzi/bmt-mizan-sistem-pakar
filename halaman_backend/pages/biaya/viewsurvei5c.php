@@ -46,7 +46,7 @@ $dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pemb
                                         <th>Username</th>
                                         <th>Nominal Pinjaman</th>
                                         <th>Jangka Waktu</th>
-                                        <th>Tanggal Peminjaman</th>
+                                        <th>Tanggal Pengajuan Pembiayaan</th>
                                         <th>Status</th>
                                         <th colspan="2">Aksi</th>
                                     </tr>
@@ -57,7 +57,8 @@ $dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pemb
                                     foreach ($dataPeminjamanNasabah as $key => $value) : ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td><a href="?page=pages/biaya/detailsurvei5C&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>"><?= $value['nama_lengkap']; ?></a></td>
+                                            <!-- <td><a href="?page=pages/biaya/detailsurvei5C&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>"><?= $value['nama_lengkap']; ?></a></td> -->
+                                            <td><?= $value['nama_lengkap']; ?></td>
                                             <td><?= $value['nik_username']; ?></td>
                                             <td>Rp. <?= number_format($value['nominal_pinjaman'], 0, '.', '.'); ?></td>
                                             <td><?= $value['jangka_waktu']; ?> bulan</td>

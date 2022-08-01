@@ -1,6 +1,6 @@
 <?php
 // Query menampilkan data peminjaman nasabah Diterima
-$data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah,bs.* FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE jn.status='Diterima' GROUP BY ppn.id_pemberian_pembiayaan_nasabah ORDER BY jn.id_jaminan_nasabah ASC");
+$data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap,n.no_telepon, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah,bs.*, pd.biaya_diterima, pd.id_pembiayaan_diterima FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE jn.status='Diterima' GROUP BY ppn.id_pemberian_pembiayaan_nasabah ORDER BY jn.id_jaminan_nasabah ASC");
 
 
 ?>
@@ -50,7 +50,9 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                     <th>Pendapatan Bersih</th>
                                     <th>Jangka Waktu</th>
                                     <th>Status</th>
-                                    <th colspan="2">Aksi</th>
+                                    <th>Pembiayaan Yang Diterima</th>
+                                    <th>No. Telepon</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,13 +67,17 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                         <td>Rp. <?= number_format($value['pendapatan_bersih_per_bulan'], 0, '.', '.'); ?></td>
                                         <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['status']; ?></td>
+                                        <td>Rp. <?= number_format($value['biaya_diterima'], 0, '.', '.'); ?></td>
+                                        <td> <a href="https://api.whatsapp.com/send?phone=.<?= $value['no_telepon']; ?> ?>.&text=Halo." target="blank" class="text-center"><?= $value['no_telepon']; ?></a></td>
                                         <form action="" method="POST">
                                             <td class="text-center">
                                                 <input type="hidden" name="id_bukti_survei" value="<?= $value['id_bukti_survei']; ?>">
                                                 <?php if ($value['status_validasi_hasil'] == 0) : ?>
-                                                    <button name="validasi_peminjaman" class="btn btn-danger">Validasi</button>
+                                                    <a href="" data-toggle="modal" data-target="#edit_biaya_diterima<?= $value['id_pembiayaan_diterima'] ?>" class="btn btn-warning mb-2">Edit</a>
+                                                    <button name="validasi_peminjaman" class="btn btn-danger mb-2">Validasi</button>
                                                 <?php endif; ?>
-                                                <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success">Detail</i></a>
+                                                <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success mb-2">Detail</i></a>
+
 
                                             </td>
                                         </form>
@@ -109,6 +115,58 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
             <!-- /.col -->
         </div>
         <!-- /.row -->
+
+        <?php foreach ($data as $key => $value) : ?>
+            <div class="modal fade" id="edit_biaya_diterima<?= $value['id_pembiayaan_diterima'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title" id="exampleModalLabel" style="text-align: centers;">EDIT PEMBIAYAAN DITERIMA</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" name="id_pembiayaan_diterima" id="id_pembiayaan_diterima" value="<?= $value['id_pembiayaan_diterima']; ?>" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="biaya_diterima">Pembiayaan Yang Diterima</label>
+                                    <input type="text" name="biaya_diterima" id="biaya_diterima" value="<?= $value['biaya_diterima']; ?>" class="form-control" required onkeypress="return event.charCode>=48 && event.charCode<=57">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-success" name="update">Update</button>
+                                </div>
+                            </form>
+                        </div> <!-- /MODAL BODY -->
+
+                        <?php
+
+                        if (isset($_POST['update'])) {
+                            $id_pembiayaan_diterima = $_POST['id_pembiayaan_diterima'];
+                            $biaya_diterima = $_POST['biaya_diterima'];
+                            // Edit data tabel pembiayaan Diterima
+                            $edit = $koneksi->query("UPDATE tb_pembiayaan_diterima SET biaya_diterima= '$biaya_diterima' WHERE id_pembiayaan_diterima='$id_pembiayaan_diterima'");
+
+                            if ($edit) {
+                                $_SESSION['info'] = 'Berhasil Diubah';
+                                echo "<script>
+                                                        window.location.href = '?page=pages/peminjaman/viewnasabahditerima'</script>";
+                            } else {
+                                $_SESSION['info'] = 'Gagal Diubah';
+                                echo "<script>window.location.href = '?page=pages/peminjaman/viewnasabahditerima'
+                                                        </script>";
+                            }
+                        }
+
+                        ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </section>
     <!-- /.content -->
 </div>

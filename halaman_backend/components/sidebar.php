@@ -131,6 +131,12 @@
                             <p>Hasil Pembiayaan</p>
                         </a>
                     </li>
+                    <!-- <li class="nav-item">
+                        <a href="?page=pages/hasilpembiayaan/viewlaporanhasilpembiayaan" class="nav-link">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>Laporan Hasil Pembiayaan</p>
+                        </a>
+                    </li> -->
                     </li>
                 <?php elseif ($_SESSION['status'] === 'Petugas Lapangan') : ?>
                     <li class="nav-item">

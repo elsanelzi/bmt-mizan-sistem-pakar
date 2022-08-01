@@ -231,14 +231,14 @@ $detailDataPeminjamanSertifikatNasabah = mysqli_query($koneksi, "SELECT n.*,pp.*
                                                             <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_belakang'] ?>" alt="" width="100px" height="100px"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td width="30%">Foto Tampak Samping</td>
+                                                            <td width="30%">Foto Tampak Kiri</td>
                                                             <td width="10%">:</td>
-                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_samping'] ?>" alt="" width="100px" height="100px"></td>
+                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_kiri'] ?>" alt="" width="100px" height="100px"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td width="30%">Foto Tampak Atas</td>
+                                                            <td width="30%">Foto Tampak Kanan</td>
                                                             <td width="10%">:</td>
-                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_atas'] ?>" alt="" width="100px" height="100px"></td>
+                                                            <td><img src="assets/image/foto detail jaminan sertifikat nasabah/<?= $value['foto_tampak_kanan'] ?>" alt="" width="100px" height="100px"></td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                     </table>
