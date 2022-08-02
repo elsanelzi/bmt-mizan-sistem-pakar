@@ -96,19 +96,11 @@ $dataHasilPembiayaanTeller = mysqli_query($koneksi, "SELECT *, n.nik_username as
                                             <td><?= $value['nama_lengkap']; ?></td>
                                             <td><?= $value['nik_username']; ?></td>
                                             <td><?= $value['tanggal']; ?></td>
-                                            <td><?= $value['nilai_nasabah']; ?></td>
-                                            <td><?= $value['persentase_nilai']; ?> %</td>
                                             <td><?= $value['status']; ?></td>
                                             <?php if ($value['status'] == 'Diterima') : ?>
-                                                <?php
-                                                // Query menampilkan data rasio angsuran
-                                                $dataRasioAngsuran = mysqli_query($koneksi, "SELECT * FROM tb_rasio_angsuran")->fetch_array();
-                                                $besar_rasio_angsuran = $dataRasioAngsuran['besar_rasio_angsuran'];
-                                                $biaya_diterima = ($besar_rasio_angsuran * $value['pendapatan_bersih_per_bulan'] * $value['jangka_waktu']) / 100;
-                                                ?>
-                                                <td class="text-success">Rp. <?= number_format($biaya_diterima, 0, '.', '.'); ?></td>
+                                                <td class="text-success">Rp. <?= number_format($value['biaya_diterima'], 0, '.', '.'); ?></td>
                                             <?php elseif ($value['status'] == 'Ditolak') : ?>
-                                                <td class="text-danger">Rp. <?= number_format(0, 0, '.', '.'); ?></td>
+                                                <td class="text-danger">Rp. <?= number_format($value['biaya_diterima'], 0, '.', '.'); ?></td>
                                             <?php endif; ?>
                                             <td class="text-center">
                                                 <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success">Detail</i></a>
