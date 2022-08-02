@@ -69,18 +69,20 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap,n.no_telep
                                         <td><?= $value['status']; ?></td>
                                         <td>Rp. <?= number_format($value['biaya_diterima'], 0, '.', '.'); ?></td>
                                         <td> <a href="https://api.whatsapp.com/send?phone=.<?= $value['no_telepon']; ?> ?>.&text=Halo." target="blank" class="text-center"><?= $value['no_telepon']; ?></a></td>
-                                        <form action="" method="POST">
-                                            <td class="text-center">
+
+                                        <td class="text-center">
+                                            <form action="" method="POST">
                                                 <input type="hidden" name="id_bukti_survei" value="<?= $value['id_bukti_survei']; ?>">
                                                 <?php if ($value['status_validasi_hasil'] == 0) : ?>
-                                                    <a href="" data-toggle="modal" data-target="#edit_biaya_diterima<?= $value['id_pembiayaan_diterima'] ?>" class="btn btn-warning mb-2">Edit</a>
-                                                    <button name="validasi_peminjaman" class="btn btn-danger mb-2">Validasi</button>
+                                                    <button type="submit" name="validasi_peminjaman" class="btn btn-danger mb-2">Validasi</button>
                                                 <?php endif; ?>
-                                                <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success mb-2">Detail</i></a>
+                                            </form>
+                                            <?php if ($value['status_validasi_hasil'] == 0) : ?>
+                                                <a href="" data-toggle="modal" data-target="#edit_biaya_diterima<?= $value['id_pembiayaan_diterima'] ?>" class="btn btn-warning mb-2">Edit</a>
+                                            <?php endif; ?>
+                                            <a href="?page=pages/hasilpembiayaan/detailhasilpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success mb-2">Detail</i></a>
+                                        </td>
 
-
-                                            </td>
-                                        </form>
                                     </tr>
                                 <?php endforeach; ?>
 
