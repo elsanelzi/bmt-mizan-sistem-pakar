@@ -107,6 +107,11 @@
                                         <td> Rp. <?= number_format($value['jumlah_hutang'], 0, '.', '.'); ?></td>
                                     </tr>
                                     <tr>
+                                        <td width="30%">Taksiran Kendaraan</td>
+                                        <td width="5%" style="text-align: right;">:</td>
+                                        <td> Rp. <?= number_format($value['taksiran_kendaraan'], 0, '.', '.'); ?></td>
+                                    </tr>
+                                    <tr>
                                         <td width="30%">Penjualan</td>
                                         <td width="5%" style="text-align: right;">:</td>
                                         <td> Rp. <?= number_format($value['penjualan'], 0, '.', '.'); ?></td>

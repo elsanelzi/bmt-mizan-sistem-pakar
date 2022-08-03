@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Agu 2022 pada 10.13
+-- Waktu pembuatan: 01 Agu 2022 pada 22.19
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -32,7 +32,6 @@ CREATE TABLE `tb_analisa_pendapatan` (
   `id_pemberian_pembiayaan_nasabah` int(11) NOT NULL,
   `jumlah_tabungan` double NOT NULL,
   `jumlah_hutang` double NOT NULL,
-  `taksiran_kendaraan` double NOT NULL,
   `penjualan` double NOT NULL,
   `biaya_tenaga_kerja` double NOT NULL,
   `biaya_bahan_baku` double NOT NULL,
@@ -60,8 +59,8 @@ CREATE TABLE `tb_analisa_pendapatan` (
 -- Dumping data untuk tabel `tb_analisa_pendapatan`
 --
 
-INSERT INTO `tb_analisa_pendapatan` (`id_analisa_pendapatan`, `id_pemberian_pembiayaan_nasabah`, `jumlah_tabungan`, `jumlah_hutang`, `taksiran_kendaraan`, `penjualan`, `biaya_tenaga_kerja`, `biaya_bahan_baku`, `biaya_overhead`, `harga_pokok_produksi`, `pendapatan_jualan`, `biaya_umum_dan_adm`, `biaya_pemasaran`, `pendapatan_per_bulan`, `pendapatan_lain_lain`, `total_pendapatan_per_bulan`, `biaya_makan`, `biaya_transportasi`, `biaya_sewa`, `biaya_air`, `biaya_listrik`, `biaya_telepon`, `biaya_pendidikan`, `biaya_lain_lain`, `total_biaya_hidup_per_bulan`, `pendapatan_bersih_per_bulan`) VALUES
-(1, 1, 40000000, 2100000, 700000, 5500000, 10000, 1000, 9000, 15000, 5441000, 3000, 21000, 66000, 7000000, 12507000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 11071000);
+INSERT INTO `tb_analisa_pendapatan` (`id_analisa_pendapatan`, `id_pemberian_pembiayaan_nasabah`, `jumlah_tabungan`, `jumlah_hutang`, `penjualan`, `biaya_tenaga_kerja`, `biaya_bahan_baku`, `biaya_overhead`, `harga_pokok_produksi`, `pendapatan_jualan`, `biaya_umum_dan_adm`, `biaya_pemasaran`, `pendapatan_per_bulan`, `pendapatan_lain_lain`, `total_pendapatan_per_bulan`, `biaya_makan`, `biaya_transportasi`, `biaya_sewa`, `biaya_air`, `biaya_listrik`, `biaya_telepon`, `biaya_pendidikan`, `biaya_lain_lain`, `total_biaya_hidup_per_bulan`, `pendapatan_bersih_per_bulan`) VALUES
+(1, 1, 40000000, 2300000, 5300000, 2000, 1000, 9000, 15000, 5235000, 7000, 31000, 66000, 7000000, 12301000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 9965000);
 
 -- --------------------------------------------------------
 
@@ -81,7 +80,7 @@ CREATE TABLE `tb_bukti_survei` (
 --
 
 INSERT INTO `tb_bukti_survei` (`id_bukti_survei`, `id_hasil`, `bukti_lampiran_survei`, `status_validasi_hasil`) VALUES
-(1, 1, '1659370510_bukti2.png', 0);
+(1, 1, '1659370510_bukti2.png', 1);
 
 -- --------------------------------------------------------
 
@@ -301,7 +300,7 @@ CREATE TABLE `tb_pembiayaan_diterima` (
 --
 
 INSERT INTO `tb_pembiayaan_diterima` (`id_pembiayaan_diterima`, `id_pemberian_pembiayaan_nasabah`, `biaya_diterima`) VALUES
-(1, 1, 59783400);
+(1, 1, 52000000);
 
 -- --------------------------------------------------------
 
@@ -379,25 +378,6 @@ INSERT INTO `tb_rincian_5c` (`id_rincian_5c`, `id_faktor_5c`, `keterangan`, `bob
 (35, 7, 'Membayar tidak terlambat', 25),
 (36, 7, 'Ketepatan Angsuran', 15),
 (37, 3, 'Ibadah Sunah', 10);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_taksiran_kendaraan`
---
-
-CREATE TABLE `tb_taksiran_kendaraan` (
-  `id_taksiran_kendaraan` int(11) NOT NULL,
-  `besar_taksiran_kendaraan` double NOT NULL,
-  `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_taksiran_kendaraan`
---
-
-INSERT INTO `tb_taksiran_kendaraan` (`id_taksiran_kendaraan`, `besar_taksiran_kendaraan`, `keterangan`) VALUES
-(2, 70, 'Besar Taksiran Kendaraan 70 %');
 
 -- --------------------------------------------------------
 
@@ -520,12 +500,6 @@ ALTER TABLE `tb_rincian_5c`
   ADD PRIMARY KEY (`id_rincian_5c`);
 
 --
--- Indeks untuk tabel `tb_taksiran_kendaraan`
---
-ALTER TABLE `tb_taksiran_kendaraan`
-  ADD PRIMARY KEY (`id_taksiran_kendaraan`);
-
---
 -- Indeks untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
@@ -625,12 +599,6 @@ ALTER TABLE `tb_rentang_pendapatan`
 --
 ALTER TABLE `tb_rincian_5c`
   MODIFY `id_rincian_5c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
-
---
--- AUTO_INCREMENT untuk tabel `tb_taksiran_kendaraan`
---
-ALTER TABLE `tb_taksiran_kendaraan`
-  MODIFY `id_taksiran_kendaraan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`

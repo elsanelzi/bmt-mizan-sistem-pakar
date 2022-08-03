@@ -44,6 +44,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?php
+                                            $taksiran_kendaraan = mysqli_query($koneksi, "SELECT * FROM tb_taksiran_kendaraan ORDER BY id_taksiran_kendaraan DESC")->fetch_array();
+                                            ?>
+                                            <input name="besar_taksiran_kendaraan" id="besar_taksiran_kendaraan" type="hidden" class="form-control" placeholder="Masukan Besar Taksiran Kendaraan" required onchange="total1()" onkeypress="return event.charCode>=48 && event.charCode<=57" value="<?= $taksiran_kendaraan['besar_taksiran_kendaraan'] ?>" />
+                                            <label for="taksiran_kendaraan">Taksiran Kendaraan:</label>
+                                            <input name="taksiran_kendaraan" id="taksiran_kendaraan" type="float" class="form-control" placeholder="Masukan Taksiran Kendaraan" required onchange="total1()" onkeypress="return event.charCode>=48 && event.charCode<=57" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -202,6 +214,12 @@
         //  Perhitungan Pendapatan Kotor
         var jumlah_tabungan = document.getElementById('jumlah_tabungan').value;
         var jumlah_hutang = document.getElementById('jumlah_hutang').value;
+
+        var taksiran_kendaraan = document.getElementById('taksiran_kendaraan').value;
+        var besar_taksiran_kendaraan = document.getElementById('besar_taksiran_kendaraan').value;
+        var hasil_taksiran_kendaraan = Number(besar_taksiran_kendaraan) * Number(taksiran_kendaraan) / 100;
+
+
         var penjualan = document.getElementById('penjualan').value;
         var biaya_tenaga_kerja = document.getElementById('biaya_tenaga_kerja').value;
         var biaya_bahan_baku = document.getElementById('biaya_bahan_baku').value;
@@ -235,7 +253,7 @@
         var total_biaya_hidup_per_bulan = Number(biaya_makan) + Number(biaya_transportasi) + Number(biaya_sewa) + Number(biaya_air) + Number(biaya_listrik) + Number(biaya_telepon) + Number(biaya_pendidikan) + Number(biaya_lain_lain);
 
         //  Perhitungan pendapatan bersih
-        var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan) - Number(jumlah_hutang);
+        var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan) - Number(jumlah_hutang) + Number(hasil_taksiran_kendaraan);
 
         document.getElementById('jumlah_tabungan').value = jumlah_tabungan;
         document.getElementById('jumlah_hutang').value = jumlah_hutang;
@@ -256,6 +274,11 @@ if (isset($_POST['simpan'])) {
     $id_pemberian_pembiayaan_nasabah = $_POST['id_pemberian_pembiayaan_nasabah'];
     $jumlah_tabungan = $_POST['jumlah_tabungan'];
     $jumlah_hutang = $_POST['jumlah_hutang'];
+
+    $taksiran_kendaraan = $_POST['taksiran_kendaraan'];
+    $besar_taksiran_kendaraan = $_POST['besar_taksiran_kendaraan'];
+    $hasil_taksiran_kendaraan = $taksiran_kendaraan * $besar_taksiran_kendaraan / 100;
+
     $penjualan = $_POST['penjualan'];
     $biaya_tenaga_kerja = $_POST['biaya_tenaga_kerja'];
     $biaya_bahan_baku = $_POST['biaya_bahan_baku'];
@@ -280,7 +303,7 @@ if (isset($_POST['simpan'])) {
     $pendapatan_bersih_per_bulan = $_POST['pendapatan_bersih'];
 
     // Query mmenyimpan data kedalam tabel analisa pendapatan
-    $simpan = mysqli_query($koneksi, "INSERT INTO tb_analisa_pendapatan (`id_pemberian_pembiayaan_nasabah`,`jumlah_tabungan`,`jumlah_hutang`,`penjualan`,`biaya_tenaga_kerja`,`biaya_bahan_baku`,`biaya_overhead`,`harga_pokok_produksi`,`pendapatan_jualan`,`biaya_umum_dan_adm`,`biaya_pemasaran`,`pendapatan_per_bulan`,`pendapatan_lain_lain`,`total_pendapatan_per_bulan`,`biaya_makan`,`biaya_transportasi`,`biaya_sewa`, `biaya_air`,`biaya_listrik`,`biaya_telepon`,`biaya_pendidikan`,`biaya_lain_lain`,`total_biaya_hidup_per_bulan`,`pendapatan_bersih_per_bulan`) VALUES ('$id_pemberian_pembiayaan_nasabah','$jumlah_tabungan','$jumlah_hutang','$penjualan','$biaya_tenaga_kerja','$biaya_bahan_baku','$biaya_overhead','$harga_pokok_produksi','$pendapatan_jualan','$biaya_umum_dan_adm','$biaya_pemasaran','$pendapatan_per_bulan','$pendapatan_lain_lain','$total_pendapatan_per_bulan','$biaya_makan','$biaya_transportasi','$biaya_sewa','$biaya_air','$biaya_listrik','$biaya_telepon','$biaya_pendidikan','$biaya_lain_lain','$total_biaya_hidup_per_bulan', '$pendapatan_bersih_per_bulan')");
+    $simpan = mysqli_query($koneksi, "INSERT INTO tb_analisa_pendapatan (`id_pemberian_pembiayaan_nasabah`,`jumlah_tabungan`,`jumlah_hutang`,`taksiran_kendaraan`,`penjualan`,`biaya_tenaga_kerja`,`biaya_bahan_baku`,`biaya_overhead`,`harga_pokok_produksi`,`pendapatan_jualan`,`biaya_umum_dan_adm`,`biaya_pemasaran`,`pendapatan_per_bulan`,`pendapatan_lain_lain`,`total_pendapatan_per_bulan`,`biaya_makan`,`biaya_transportasi`,`biaya_sewa`, `biaya_air`,`biaya_listrik`,`biaya_telepon`,`biaya_pendidikan`,`biaya_lain_lain`,`total_biaya_hidup_per_bulan`,`pendapatan_bersih_per_bulan`) VALUES ('$id_pemberian_pembiayaan_nasabah','$jumlah_tabungan','$jumlah_hutang','$hasil_taksiran_kendaraan','$penjualan','$biaya_tenaga_kerja','$biaya_bahan_baku','$biaya_overhead','$harga_pokok_produksi','$pendapatan_jualan','$biaya_umum_dan_adm','$biaya_pemasaran','$pendapatan_per_bulan','$pendapatan_lain_lain','$total_pendapatan_per_bulan','$biaya_makan','$biaya_transportasi','$biaya_sewa','$biaya_air','$biaya_listrik','$biaya_telepon','$biaya_pendidikan','$biaya_lain_lain','$total_biaya_hidup_per_bulan', '$pendapatan_bersih_per_bulan')");
 
     if ($simpan) {
         // Query menampilkan data validasi peminjaman

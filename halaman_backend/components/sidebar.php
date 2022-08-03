@@ -89,6 +89,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="?page=pages/taksirankendaraan/viewtaksirankendaraan" class="nav-link">
+                            <i class="nav-icon far fa-credit-card"></i>
+                            <p>Taksiran Kendaraan</p>
+                        </a>
+                    </li>
+
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -123,7 +130,7 @@
                                 </a>
                             </li> -->
                         </ul>
-
+                    </li>
                     <li class="nav-item">
                         <a href="?page=pages/hasilpembiayaan/viewhasilpembiayaan" class="nav-link">
                             <!-- <i class="nav-icon fas fa-solid fa-coins"></i> -->
@@ -131,13 +138,48 @@
                             <p>Hasil Pembiayaan</p>
                         </a>
                     </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Laporan Nasabah BMT
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="?page=pages/laporannasabah/viewlaporannasabahperhari" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan Perhari</p>
+                                </a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a href="?page=pages/laporannasabah/viewlaporannasabahperminggu" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan PerMinggu</p>
+                                </a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a href="?page=pages/laporannasabah/viewlaporannasabahperbulan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan PerBulan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="?page=pages/laporannasabah/viewlaporannasabahperjenispembiayaan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan PerJenis Pembiayaan</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <!-- <li class="nav-item">
                         <a href="?page=pages/hasilpembiayaan/viewlaporanhasilpembiayaan" class="nav-link">
-                            <i class="nav-icon fas fa-file-alt"></i>
+                            <i class="nav-icon fab fa-cc-paypal"></i>
                             <p>Laporan Hasil Pembiayaan</p>
                         </a>
                     </li> -->
-                    </li>
+
                 <?php elseif ($_SESSION['status'] === 'Petugas Lapangan') : ?>
                     <li class="nav-item">
                         <a href="?page=pages/nasabah/viewnasabah" class="nav-link">
