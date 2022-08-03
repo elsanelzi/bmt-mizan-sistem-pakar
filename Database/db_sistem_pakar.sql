@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Agu 2022 pada 10.13
+-- Waktu pembuatan: 03 Agu 2022 pada 12.54
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -61,7 +61,7 @@ CREATE TABLE `tb_analisa_pendapatan` (
 --
 
 INSERT INTO `tb_analisa_pendapatan` (`id_analisa_pendapatan`, `id_pemberian_pembiayaan_nasabah`, `jumlah_tabungan`, `jumlah_hutang`, `taksiran_kendaraan`, `penjualan`, `biaya_tenaga_kerja`, `biaya_bahan_baku`, `biaya_overhead`, `harga_pokok_produksi`, `pendapatan_jualan`, `biaya_umum_dan_adm`, `biaya_pemasaran`, `pendapatan_per_bulan`, `pendapatan_lain_lain`, `total_pendapatan_per_bulan`, `biaya_makan`, `biaya_transportasi`, `biaya_sewa`, `biaya_air`, `biaya_listrik`, `biaya_telepon`, `biaya_pendidikan`, `biaya_lain_lain`, `total_biaya_hidup_per_bulan`, `pendapatan_bersih_per_bulan`) VALUES
-(1, 1, 40000000, 2100000, 700000, 5500000, 10000, 1000, 9000, 15000, 5441000, 3000, 21000, 66000, 7000000, 12507000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 11071000);
+(1, 1, 40000000, 2100000, 7000000, 5500000, 13000, 45000, 9000, 15000, 5380000, 7000, 31000, 66000, 7000000, 12446000, 1000, 6000, 8000, 2000, 9000, 2000, 1000, 7000, 36000, 10310000);
 
 -- --------------------------------------------------------
 
@@ -301,7 +301,7 @@ CREATE TABLE `tb_pembiayaan_diterima` (
 --
 
 INSERT INTO `tb_pembiayaan_diterima` (`id_pembiayaan_diterima`, `id_pemberian_pembiayaan_nasabah`, `biaya_diterima`) VALUES
-(1, 1, 59783400);
+(1, 1, 55674000);
 
 -- --------------------------------------------------------
 

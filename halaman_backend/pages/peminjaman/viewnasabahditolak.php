@@ -1,6 +1,6 @@
 <?php
 // Query menampilkan data Peminjaman Nasabah Ditolak
-$data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,h.nilai_nasabah,bs.*,pd.biaya_diterima FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE jn.status='Ditolak' GROUP BY ppn.id_pemberian_pembiayaan_nasabah ORDER BY jn.id_jaminan_nasabah ASC");
+$data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pemberian_pembiayaan_nasabah, ppn.nominal_pinjaman, ppn.jangka_waktu, jn.id_jaminan_nasabah, jn.status, ap.pendapatan_bersih_per_bulan,ap.taksiran_kendaraan,h.nilai_nasabah,bs.*,pd.biaya_diterima FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE jn.status='Ditolak' GROUP BY ppn.id_pemberian_pembiayaan_nasabah ORDER BY jn.id_jaminan_nasabah ASC");
 
 
 ?>
@@ -51,6 +51,7 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                     <th>Jangka Waktu</th>
                                     <th>Status</th>
                                     <th>Pembiayaan Yang Diterima</th>
+                                    <th>Taksiran Kendaraan</th>
                                     <th colspan="3">Aksi</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,7 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                         <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['status']; ?></td>
                                         <td>Rp. <?= number_format($value['biaya_diterima'], 0, '.', '.'); ?></td>
+                                        <td>Rp. <?= number_format($value['taksiran_kendaraan'], 0, '.', '.'); ?></td>
                                         <form action="" method="POST">
                                             <td class="text-center">
                                                 <input type="hidden" name="id_bukti_survei" value="<?= $value['id_bukti_survei']; ?>">

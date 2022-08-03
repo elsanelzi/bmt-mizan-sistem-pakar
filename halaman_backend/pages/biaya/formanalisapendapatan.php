@@ -253,7 +253,7 @@
         var total_biaya_hidup_per_bulan = Number(biaya_makan) + Number(biaya_transportasi) + Number(biaya_sewa) + Number(biaya_air) + Number(biaya_listrik) + Number(biaya_telepon) + Number(biaya_pendidikan) + Number(biaya_lain_lain);
 
         //  Perhitungan pendapatan bersih
-        var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan) - Number(jumlah_hutang) + Number(hasil_taksiran_kendaraan);
+        var pendapatan_bersih = Number(total_pendapatan_per_bulan) - Number(total_biaya_hidup_per_bulan) - Number(jumlah_hutang);
 
         document.getElementById('jumlah_tabungan').value = jumlah_tabungan;
         document.getElementById('jumlah_hutang').value = jumlah_hutang;
