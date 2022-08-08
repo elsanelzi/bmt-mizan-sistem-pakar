@@ -1,7 +1,7 @@
 <?php
 $nik_username = $_SESSION['username'];
 // Query menampilkan data Peminjaman Nasabah
-$dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON ppn.nik_username=n.nik_username LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah WHERE n.nik_username='$nik_username' ORDER BY jn.id_pemberian_pembiayaan_nasabah DESC");
+$dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pembiayaan_nasabah ppn LEFT JOIN tb_nasabah n ON ppn.nik_username=n.nik_username LEFT JOIN tb_jaminan_nasabah jn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_hasil h ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE n.nik_username='$nik_username' ORDER BY jn.id_pemberian_pembiayaan_nasabah DESC");
 
 
 ?>
@@ -50,7 +50,17 @@ $dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pemb
                                         <td>Rp. <?= number_format($value['nominal_pinjaman'], 0, '.', '.'); ?></td>
                                         <td><?= $value['jangka_waktu']; ?> bulan</td>
                                         <td><?= $value['tanggal_peminjaman']; ?></td>
-                                        <td><?= $value['status']; ?></td>
+                                        <?php if ($value['status'] != 'Diterima' && $value['status'] != 'Ditolak') : ?>
+                                            <td><?= $value['status']; ?></td>
+                                        <?php elseif ($value['status'] == 'Diterima' && $value['status_validasi_hasil'] == 0) : ?>
+                                            <td class="text-danger">Menunggu Validasi</td>
+                                        <?php elseif ($value['status'] == 'Ditolak' && $value['status_validasi_hasil'] == 0) : ?>
+                                            <td class="text-danger">Menunggu Validasi</td>
+                                        <?php elseif ($value['status'] == 'Diterima' && $value['status_validasi_hasil'] == 1) : ?>
+                                            <td class="text-success"><?= $value['status']; ?></td>
+                                        <?php elseif ($value['status'] == 'Ditolak' && $value['status_validasi_hasil'] == 1) : ?>
+                                            <td class="text-danger"><?= $value['status']; ?></td>
+                                        <?php endif; ?>
                                         <td class="text-center">
                                             <a href="?page=halaman_awal/pages/pembiayaan/detailpembiayaan&id=<?php echo $value['id_pemberian_pembiayaan_nasabah']; ?>" class="btn btn-success">Detail</i></a>
                                         </td>
@@ -73,7 +83,7 @@ $dataPeminjamanNasabah = mysqli_query($koneksi, "SELECT * FROM tb_pemberian_pemb
     <div class="container" data-aos="fade-up">
         <?php
         // Query menampilkan data hasil pembiayaan nasabah
-        $dataHasilPembiayaan = mysqli_query($koneksi, "SELECT *, n.nik_username as nik_username FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_pemberian_pembiayaan_nasabah ppn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE n.nik_username='$nik_username' AND jn.status='Diterima' || status='Ditolak' AND status_validasi_hasil=1 ORDER BY h.id_hasil ASC");
+        $dataHasilPembiayaan = mysqli_query($koneksi, "SELECT *, n.nik_username as nik_username FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_pemberian_pembiayaan_nasabah ppn ON ppn.id_pemberian_pembiayaan_nasabah=jn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_analisa_pendapatan ap ON ap.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_nasabah n ON n.nik_username=ppn.nik_username LEFT JOIN tb_pembiayaan_diterima pd ON pd.id_pemberian_pembiayaan_nasabah=ppn.id_pemberian_pembiayaan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE n.nik_username='$nik_username' AND jn.status!='pending' AND jn.status!='konfirmasi' AND jn.status!='selesai survei 5c' AND status_validasi_hasil=1 ORDER BY h.id_hasil ASC");
 
         ?>
         <div class="section-title">

@@ -9,7 +9,7 @@
     $jenispembiayaan = $koneksi->query("SELECT COUNT(*) AS jumlah_jenis_pembiayaan FROM tb_jenis_pembiayaan")->fetch_assoc();
     $analisapendapatan = $koneksi->query("SELECT COUNT(*) AS jumlah_analisa_pendapatan FROM tb_analisa_pendapatan")->fetch_assoc();
     $hasil_pembiayaan = $koneksi->query("SELECT COUNT(*) AS jumlah_hasil_pembiayaan FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah WHERE status='Diterima' || status='Ditolak' ")->fetch_assoc();
-    $hasil_pembiayaan_teller = $koneksi->query("SELECT COUNT(*) AS jumlah_hasil_pembiayaan_teller FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE status_validasi_hasil=1 AND status='Diterima' || status='Ditolak' ")->fetch_assoc();
+    $hasil_pembiayaan_teller = $koneksi->query("SELECT COUNT(*) AS jumlah_hasil_pembiayaan_teller FROM tb_hasil h LEFT JOIN tb_jaminan_nasabah jn ON h.id_jaminan_nasabah=jn.id_jaminan_nasabah LEFT JOIN tb_bukti_survei bs ON bs.id_hasil=h.id_hasil WHERE jn.status!='pending' AND jn.status!='konfirmasi' AND jn.status!='selesai survei 5c' AND status_validasi_hasil=1 ")->fetch_assoc();
     ?>
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->

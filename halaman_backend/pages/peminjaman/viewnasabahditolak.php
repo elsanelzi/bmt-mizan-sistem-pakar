@@ -93,10 +93,10 @@ $data = mysqli_query($koneksi, "SELECT n.nik_username, n.nama_lengkap, ppn.id_pe
                                     if ($edit) {
                                         $_SESSION['info'] = 'Berhasil Divalidasi';
                                         echo "<script>
-                                                        window.location.href = '?page=pages/peminjaman/viewnasabahditerima'</script>";
+                                                        window.location.href = '?page=pages/peminjaman/viewnasabahditolak'</script>";
                                     } else {
                                         $_SESSION['info'] = 'Gagal Divalidasi';
-                                        echo "<script>window.location.href = '?page=pages/peminjaman/viewnasabahditerima'
+                                        echo "<script>window.location.href = '?page=pages/peminjaman/viewnasabahditolak'
                                                         </script>";
                                     }
                                 }
